@@ -58,7 +58,7 @@ void PlaceTile(sf::Vector2f MapPosition, world* world)
 {
 	// change the map coordinates to world positioni
 	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*TileSize , MapPosition.y*TileSize );
-	building* b = new building(WorldPosition.x, WorldPosition.y);
+	building* b = new building(WorldPosition.x, WorldPosition.y, world);
 	if (world->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
 		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";
 	else {

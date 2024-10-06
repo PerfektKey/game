@@ -2,15 +2,16 @@
 
 #include <stdint.h>
 #include <SFML/Graphics.hpp>
-#include <array>
+
+class world;
 
 class building {
 private:
-	sf::Vector2f position;
-	std::array<building*, 9> neighboors;
-
+	sf::Vector2f screenPosition;
+	world* WORLD;
+	sf::Vector2f mapPosition;
 public:
-	building(uint16_t, uint16_t);
+	building(uint16_t, uint16_t, world*);
 
 
 	uint16_t getX() const;
