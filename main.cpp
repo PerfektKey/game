@@ -3,40 +3,38 @@
 #include <cmath>
 #include <vector>
 #include "building.h"
+#include "world.h"
+
+void PlaceTile(sf::Vector2f, world*);
 
 int main () {
 	
 	// creating window
 	sf::RenderWindow window(sf::VideoMode(1000,800), "Bakteria Game");
-	
-	//standart tile
-	sf::RectangleShape tile;
-	tile.setSize(sf::Vector2f(50,50));
-	tile.setOutlineColor(sf::Color::Black);
-	tile.setOutlineThickness(5);
 
-	sf::Vector2i mouseP = sf::Mouse::getPosition();
+	// create world object
+	world WORLD(20, 20);
 
-	std::vector<building> pl;
+	// Mouse Position	
+	sf::Vector2i mouseP;
 
 	// Game loop
 	while (window.isOpen()) {
-		sf::Event event;
 	
-	
+		// get mouse position and convert it to world position	
 		mouseP = sf::Mouse::getPosition(window);
-		sf::Vector2f tileP = sf::Vector2f( std::floor(mouseP.x/50)*50 , std::floor(mouseP.y/50)*50 ); 
-		tile.setPosition(tileP);
+		sf::Vector2f MapPosition = sf::Vector2f( std::floor(mouseP.x/50) , std::floor(mouseP.y/50) ); 
 
 
-		// checking for 
+		// checking for events 
+		sf::Event event;
 		while (window.pollEvent(event)) {
+			// check if window/game closed
 			if (event.type == sf::Event::Closed)
 				window.close();
-			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-				building b(tileP.x, tileP.y);	// set a tile
-				pl.push_back(b);
-				std::cout << "Placed new tile at: " << tileP.x << ", " << tileP.y << "\n";
+			// Check if building is placed
+			else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				PlaceTile(MapPosition,&WORLD );
 			}
 		}
 
@@ -44,10 +42,24 @@ int main () {
 		// updating the frame
 		window.clear(sf::Color(180,180,180));
 		//window.draw(tile);
-		for (auto& i : pl)
-			i.draw(&window);
+		WORLD.draw(&window);
 		window.display();
 	}
 	
 	return 0;
+}
+
+
+
+void PlaceTile(sf::Vector2f MapPosition, world* world)
+{
+	// change the map coordinates to world positioni
+	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*50 , MapPosition.y*50 );
+	building* b = new building(WorldPosition.x, WorldPosition.y);
+	if (world->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
+		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";
+	else {
+		std::cout << "Tile: " << MapPosition.x << ", " << MapPosition.y << " is already in use\n";
+		delete b;
+	}
 }
