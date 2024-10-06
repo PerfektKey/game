@@ -4,6 +4,9 @@
 #include <vector>
 #include "building.h"
 #include "world.h"
+#include <stdint.h>
+
+uint16_t TileSize = 50;
 
 void PlaceTile(sf::Vector2f, world*);
 
@@ -13,7 +16,7 @@ int main () {
 	sf::RenderWindow window(sf::VideoMode(1000,800), "Bakteria Game");
 
 	// create world object
-	world WORLD(20, 20);
+	world WORLD(20, 20, TileSize);
 
 	// Mouse Position	
 	sf::Vector2i mouseP;
@@ -23,7 +26,7 @@ int main () {
 	
 		// get mouse position and convert it to world position	
 		mouseP = sf::Mouse::getPosition(window);
-		sf::Vector2f MapPosition = sf::Vector2f( std::floor(mouseP.x/50) , std::floor(mouseP.y/50) ); 
+		sf::Vector2f MapPosition = sf::Vector2f( std::floor(mouseP.x/TileSize) , std::floor(mouseP.y/TileSize) ); 
 
 
 		// checking for events 
@@ -54,7 +57,7 @@ int main () {
 void PlaceTile(sf::Vector2f MapPosition, world* world)
 {
 	// change the map coordinates to world positioni
-	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*50 , MapPosition.y*50 );
+	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*TileSize , MapPosition.y*TileSize );
 	building* b = new building(WorldPosition.x, WorldPosition.y);
 	if (world->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
 		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";

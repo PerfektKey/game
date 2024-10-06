@@ -2,11 +2,13 @@
 
 
 
-world::world(uint16_t w, uint16_t h) 
+world::world(uint16_t w, uint16_t h, uint16_t ts) 
 {
 	this->width  = w;	
 	this->height = h;
 	this->map = std::vector<std::vector<building*>>(w, std::vector<building*>(h, NULL));
+	
+	this->tileSize = ts;
 }
 
 building* world::getBuilding(uint16_t wx, uint16_t hy) const {return map.at(wx).at(hy);}
