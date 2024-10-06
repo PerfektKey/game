@@ -4,6 +4,7 @@
 building::building(uint16_t x, uint16_t y, world* w) {
 	this->screenPosition = sf::Vector2f(x,y);
 	this->WORLD = w;
+	this->mapPosition = sf::Vector2f(0,0);
 }
 
 
@@ -15,4 +16,12 @@ void building::draw(sf::RenderWindow* w) const {
 	w->draw(shape);
 }
 
-
+void building::printInfo() const
+{
+	std::cout << "#############\n";
+	std::cout << "Building []\n";
+	std::cout << "at Map x: " << mapPosition.x << " Map y: " << mapPosition.y << "\n";
+	std::cout << "at Screen x: " << screenPosition.x << " Screen y: " << screenPosition.y << "\n";
+	
+	std::cout << "#############\n";
+}

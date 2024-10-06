@@ -9,6 +9,7 @@
 uint16_t TileSize = 50;
 
 void PlaceTile(sf::Vector2f, world*);
+void printTileInfo(sf::Vector2f, world*);
 
 int main () {
 	
@@ -63,6 +64,13 @@ void PlaceTile(sf::Vector2f MapPosition, world* world)
 		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";
 	else {
 		std::cout << "Tile: " << MapPosition.x << ", " << MapPosition.y << " is already in use\n";
+		world->printInfo(MapPosition);
 		delete b;
 	}
+}
+
+
+void printTileInfo(sf::Vector2f MapP, world* w) 
+{
+	w->printInfo(MapP);
 }

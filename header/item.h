@@ -1,8 +1,17 @@
 #pragma once
 #include <string>
 
+enum ItemType {
+	EMPTY = 0,
+	Copper,
+	Iron
+};
 
-struct item {
+struct ItemData {
 	std::string name;
-	std::string description;
-}
+};
+
+const ItemData[] = {
+	{"empty"},
+	{"Copper"}
+};

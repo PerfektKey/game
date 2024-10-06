@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class world;
 
@@ -18,5 +19,6 @@ public:
 	uint16_t getY() const;
 
 	void draw(sf::RenderWindow*) const;
-
+	
+	void printInfo() const;
 };

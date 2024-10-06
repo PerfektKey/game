@@ -17,6 +17,8 @@ public:
 
 	building* getBuilding(uint16_t, uint16_t) const;
 	building* setBuilding(uint16_t,uint16_t, building*);	
+	void printInfo(sf::Vector2f);
+
 
 	void draw(sf::RenderWindow*) const;
 
