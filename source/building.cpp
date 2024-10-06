@@ -1,4 +1,4 @@
-#include "building.h"
+#include "../header/building.h"
 
 
 building::building(uint16_t x, uint16_t y, world* w) {

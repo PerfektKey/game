@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <vector>
-#include "building.h"
-#include "world.h"
+#include "header/building.h"
+#include "header/world.h"
 #include <stdint.h>
 
 uint16_t TileSize = 50;
