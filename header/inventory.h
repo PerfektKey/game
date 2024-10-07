@@ -23,7 +23,7 @@ public:
 	inventory(uint16_t,uint16_t);
 	inventory();
 
-	void addItem(ItemType, uint16_t);
+	uint16_t add(ItemType, uint16_t);
 
 	bool hasItem(ItemType) const;
 	void print() const;

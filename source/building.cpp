@@ -1,14 +1,19 @@
 #include "../header/building.h"
 
 
-building::building(uint16_t x, uint16_t y, world* w) {
+building::building(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss) {
 	this->screenPosition = sf::Vector2f(x,y);
 	this->WORLD = w;
 	this->mapPosition = sf::Vector2f(0,0);
 
-	this->inv = inventory(5,5);
+	this->inv = inventory(sa,ss);
 }
+building::~building() {}//I dont know if I should write anything in here
 
+void building::update()
+{
+
+}
 
 void building::draw(sf::RenderWindow* w) const {
 	sf::RectangleShape shape;

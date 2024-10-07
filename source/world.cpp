@@ -29,6 +29,13 @@ void world::printInfo(sf::Vector2f pos)
 	map[pos.x][pos.y]->printInfo();
 }
 
+void world::update() 
+{
+	for (auto& i : map)
+	for (auto& b : i)
+		if (b != NULL) b->update();
+}
+
 void world::draw(sf::RenderWindow* w) const
 {
 	for (auto& i : map)

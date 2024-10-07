@@ -5,6 +5,8 @@
 #include "header/building.h"
 #include "header/world.h"
 #include <stdint.h>
+#include "blocks/spawner.h"
+
 
 uint16_t TileSize = 50;
 
@@ -21,6 +23,7 @@ int main () {
 
 	// Mouse Position	
 	sf::Vector2i mouseP;
+
 
 	// Game loop
 	while (window.isOpen()) {
@@ -39,6 +42,9 @@ int main () {
 			// Check if building is placed
 			else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				PlaceTile(MapPosition,&WORLD );
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+				WORLD.update();
+				std::cout << "Update\n";
 			}
 		}
 
@@ -59,7 +65,7 @@ void PlaceTile(sf::Vector2f MapPosition, world* world)
 {
 	// change the map coordinates to world positioni
 	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*TileSize , MapPosition.y*TileSize );
-	building* b = new building(WorldPosition.x, WorldPosition.y, world);
+	building* b = new spawner(WorldPosition.x, WorldPosition.y, world, 5 , 5, ItemType::Copper);
 	if (world->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
 		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";
 	else {
