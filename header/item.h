@@ -7,11 +7,11 @@ enum ItemType {
 	Iron
 };
 
-struct ItemData {
+struct ItemD {
 	std::string name;
 };
 
-const ItemData[] = {
+const ItemD ItemData[] = {
 	{"empty"},
 	{"Copper"}
 };

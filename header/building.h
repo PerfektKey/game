@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "inventory.h"
 
 class world;
 
@@ -11,6 +12,8 @@ private:
 	sf::Vector2f screenPosition;
 	world* WORLD;
 	sf::Vector2f mapPosition;
+
+	inventory inv;
 public:
 	building(uint16_t, uint16_t, world*);
 
