@@ -6,7 +6,9 @@
 #include "header/world.h"
 #include <stdint.h>
 #include "blocks/spawner.h"
+#include "UI/component.h"
 
+#include <filesystem>
 
 uint16_t TileSize = 50;
 
@@ -14,6 +16,10 @@ void PlaceTile(sf::Vector2f, world*);
 void printTileInfo(sf::Vector2f, world*);
 
 int main () {
+
+
+	std::filesystem::path cwd = std::filesystem::current_path();
+	std::cout << cwd << "\n";
 	
 	// creating window
 	sf::RenderWindow window(sf::VideoMode(1000,800), "Bakteria Game");
@@ -26,6 +32,10 @@ int main () {
 
 	sf::Clock deltaClock;
 	sf::Time dt;
+
+	component l;
+	l.setText("Test Text");
+	l.setPosition(sf::Vector2f(50,50));
 
 	// Game loop
 	while (window.isOpen()) {
@@ -46,14 +56,20 @@ int main () {
 				PlaceTile(MapPosition,&WORLD );
 			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
 				std::cout << "Update\n";
+			} else {
+				l.action(event, sf::Vector2f(mouseP.x , mouseP.y));
 			}
 		}
 
+		l.focusedMouse(sf::Vector2f(mouseP.x, mouseP.y));
+
 		WORLD.update(dt.asSeconds()); // updating
 		dt = deltaClock.restart();
+
+
 		// updating the frame
 		window.clear(sf::Color(180,180,180));
-		//window.draw(tile);
+		l.draw(&window);
 		WORLD.draw(&window);
 		window.display();
 	}
