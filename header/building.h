@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "inventory.h"
+#include <string>
 
 class world;
 
@@ -14,11 +15,13 @@ protected:
 	sf::Vector2f mapPosition;
 
 	inventory inv;
+
+	std::string type;
 public:
 	building(uint16_t, uint16_t, world*, uint16_t,uint16_t);
 	virtual ~building();
 
-	virtual void update();
+	virtual void update(float);
 
 	uint16_t getX() const;
 	uint16_t getY() const;

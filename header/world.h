@@ -19,7 +19,7 @@ public:
 	building* setBuilding(uint16_t,uint16_t, building*);	
 	void printInfo(sf::Vector2f);
 
-	void update();
+	void update(float);
 	void draw(sf::RenderWindow*) const;
 
 	uint16_t getWidth () const;

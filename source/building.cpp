@@ -7,10 +7,12 @@ building::building(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss) {
 	this->mapPosition = sf::Vector2f(0,0);
 
 	this->inv = inventory(sa,ss);
+
+	this->type = "Normal Tile";
 }
 building::~building() {}//I dont know if I should write anything in here
 
-void building::update()
+void building::update(float dt)
 {
 
 }
@@ -26,7 +28,7 @@ void building::draw(sf::RenderWindow* w) const {
 void building::printInfo() const
 {
 	std::cout << "#############\n";
-	std::cout << "Building []\n";
+	std::cout << "Building [" << type << "]\n";
 	std::cout << "at Map x: " << mapPosition.x << " Map y: " << mapPosition.y << "\n";
 	std::cout << "at Screen x: " << screenPosition.x << " Screen y: " << screenPosition.y << "\n";
 

@@ -24,6 +24,8 @@ int main () {
 	// Mouse Position	
 	sf::Vector2i mouseP;
 
+	sf::Clock deltaClock;
+	sf::Time dt;
 
 	// Game loop
 	while (window.isOpen()) {
@@ -43,12 +45,12 @@ int main () {
 			else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 				PlaceTile(MapPosition,&WORLD );
 			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
-				WORLD.update();
 				std::cout << "Update\n";
 			}
 		}
 
-		
+		WORLD.update(dt.asSeconds()); // updating
+		dt = deltaClock.restart();
 		// updating the frame
 		window.clear(sf::Color(180,180,180));
 		//window.draw(tile);

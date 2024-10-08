@@ -29,11 +29,11 @@ void world::printInfo(sf::Vector2f pos)
 	map[pos.x][pos.y]->printInfo();
 }
 
-void world::update() 
+void world::update(float dt) 
 {
 	for (auto& i : map)
 	for (auto& b : i)
-		if (b != NULL) b->update();
+		if (b != NULL) b->update(dt);
 }
 
 void world::draw(sf::RenderWindow* w) const
