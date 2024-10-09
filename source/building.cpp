@@ -6,6 +6,9 @@ building::building(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss) {
 	this->WORLD = w;
 	this->mapPosition = sf::Vector2f(0,0);
 
+	this->UIvis = false;
+	this->info = UI();
+		
 	this->inv = inventory(sa,ss);
 
 	this->type = "Normal Tile";
@@ -23,6 +26,8 @@ void building::draw(sf::RenderWindow* w) const {
 	shape.setPosition(screenPosition);
 	shape.setSize(sf::Vector2f(50,50));
 	w->draw(shape);
+
+	if (UIvis) info.draw(w);
 }
 
 void building::printInfo() const
@@ -36,4 +41,9 @@ void building::printInfo() const
 	inv.print();
 
 	std::cout << "#############\n";
+}
+
+void building::showUI(bool b){
+	UIvis = b;
+	info.setVisibility(b);
 }

@@ -10,6 +10,9 @@ spawner::spawner(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss, Ite
 	this->type = "Spawner";
 
 	this->timeToSpawn = 1.5;
+
+	label* c = new label(sf::Vector2f(x,y), "Hello", sf::Color::White, 24, "assets/arial.ttf");
+	this->info.add(c);
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?
 

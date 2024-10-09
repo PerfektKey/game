@@ -5,6 +5,7 @@
 #include <iostream>
 #include "inventory.h"
 #include <string>
+#include "../includes.h"
 
 class world;
 
@@ -17,6 +18,9 @@ protected:
 	inventory inv;
 
 	std::string type;
+
+	UI info;	
+	bool UIvis;
 public:
 	building(uint16_t, uint16_t, world*, uint16_t,uint16_t);
 	virtual ~building();
@@ -29,4 +33,6 @@ public:
 	void draw(sf::RenderWindow*) const;
 	
 	void printInfo() const;
+
+	void showUI(bool);
 };

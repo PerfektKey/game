@@ -2,20 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "component.h"
 
-class component {
-protected:
-	sf::Vector2f screenPosition;
-	sf::Vector2f relativUIposition;
-	bool show;
-	
-	sf::RectangleShape hitbox;
-	sf::Vector2f hitboxSize;
-	bool focusedByMouse;
-
+class label : public component{
+private:
+	sf::Text text;
+	sf::Font font;
+	uint16_t characterSize;
+	std::string string;
 public:
-	component(sf::Vector2f, sf::Vector2f);
-	virtual ~component();
+	label(sf::Vector2f, std::string, sf::Color, uint16_t, std::string);
+	virtual ~label();
 
 	virtual void draw(sf::RenderWindow*) const;
 	virtual void action(sf::Event, sf::Vector2f);
@@ -24,6 +21,9 @@ public:
 
 	sf::Vector2f getPosition() const;
 	virtual void setPosition(sf::Vector2f);
+
+	std::string getText() const;
+	void setText(std::string);
 
 	void setVisibility(bool);
 

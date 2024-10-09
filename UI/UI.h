@@ -1,25 +1,21 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "component.h"
+#include <vector>
 
-class building;
-
-enum bType {
-	NOTHING,
-	TILE,
-	SPAWNER
-};
-
-class buildingUI {
-private:
-
-	bType choosenB;
+class UI {
+protected:
+	std::vector<component*> comps;
+	
 public:
+	UI();
+	
+	void add(component*);
+	std::vector<component*>* getComponents();
 
+	void draw(sf::RenderWindow*) const;
+	void action(sf::Event, sf::Vector2f);
 
-	building* factorie(bType);
-
-	void update(float);
-
-	void choose();
+	void setVisibility(bool);
 };
