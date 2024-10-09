@@ -34,3 +34,4 @@ void component::focusedMouse(sf::Vector2f mouse) {
 }
 
 void component::setVisibility(bool b) {show = b;}
+bool component::getVisibility() const {return this->show;}

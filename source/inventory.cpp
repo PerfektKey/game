@@ -46,8 +46,17 @@ uint16_t inventory::add(ItemType t, uint16_t amm) {
 	return toAdd;
 }
 
-void inventory::print() const
-{
+slot inventory::getItemAt(uint16_t ind) {
+	if (ind >= slotAmmount) return slot();
+	return slots[ind];
+
+}
+
+uint16_t inventory::getSlotAmmount() const {return slotAmmount;}
+uint16_t inventory::getSlotSize() const {return slotSize;}
+
+
+void inventory::print() const {
 	// loop through slot vector, print name with ammount
 	for (uint16_t i = 0; i < slotAmmount; i++) {
 		std::cout  << ItemData[slots[i].type].name << " x " << slots[i].ammount << "\n";

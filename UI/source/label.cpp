@@ -49,5 +49,8 @@ void label::focusedMouse(sf::Vector2f mouse) {
 	setPosition(mouse - sf::Vector2f(hitboxSize.x/2 , hitboxSize.y/2) );
 }
 
-void label::setText(std::string s) {this->string = s;}
+void label::setText(std::string s) {
+	this->string = s;
+	text.setString(string);
+}
 std::string label::getText() const {return string;}

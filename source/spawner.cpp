@@ -10,9 +10,12 @@ spawner::spawner(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss, Ite
 	this->type = "Spawner";
 
 	this->timeToSpawn = 1.5;
-
-	label* c = new label(sf::Vector2f(x,y), "Hello", sf::Color::White, 24, "assets/arial.ttf");
-	this->info.add(c);
+	for (int i = 0; i < sa; i++) {
+		label* c = new label(sf::Vector2f(x,y), "", sf::Color::White, 12, "assets/arial.ttf");
+		std::string k = "label " + i; 
+		this->info.add(k, c);
+		c->setPosition(sf::Vector2f(x, y - i*12));
+	}
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?
 
@@ -27,5 +30,16 @@ void spawner::update(float dt) {
 		this->inv.add(Spawn, 1); // spawn
 		elapsedTime -= timeToSpawn; // reset the elapsed time
 		if (elapsedTime < 0) elapsedTime = 0; // if the elapsed time is less than 0, set it to 0
+		// update labels
+		for (int i = 0; i < inv.getSlotAmmount(); i++) {
+			ItemType t = inv.getItemAt(i).type;
+			std::string k = "label " + i; // creating key
+			if (t == ItemType::EMPTY) {// if item is empty(slot is emoty) then set the label text to nothing
+				static_cast<label*>(info.getComponent(k))->setText("");
+			} else { // else: set thet text to item name x Ammount
+				std::string s = ItemData[t].name + " " + std::to_string(inv.getItemAt(i).ammount);
+				static_cast<label*>(info.getComponent(k))->setText(s);
+			}
+		}
 	}
 }

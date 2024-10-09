@@ -26,6 +26,6 @@ public:
 	virtual void setPosition(sf::Vector2f);
 
 	void setVisibility(bool);
-
+	bool getVisibility() const;
 
 };

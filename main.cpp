@@ -38,7 +38,8 @@ int main () {
 
 	UI testUI;
 	label l(sf::Vector2f(50,50), "Test Text", sf::Color::White, 24, "assets/arial.ttf");
-	testUI.add(&l);
+	testUI.add("label1", &l);
+	testUI.setVisibility(true);
 
 	// Game loop
 	while (window.isOpen()) {

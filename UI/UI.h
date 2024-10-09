@@ -1,18 +1,22 @@
 #pragma once
 
+#include<iostream>
+
 #include <SFML/Graphics.hpp>
 #include "component.h"
-#include <vector>
+#include <unordered_map>
+#include <string>
 
 class UI {
 protected:
-	std::vector<component*> comps;
+	std::unordered_map<std::string, component*> comps;
 	
 public:
 	UI();
 	
-	void add(component*);
-	std::vector<component*>* getComponents();
+	void add(std::string, component*);
+	std::unordered_map<std::string, component*>* getComponents();
+	component* getComponent(std::string);
 
 	void draw(sf::RenderWindow*) const;
 	void action(sf::Event, sf::Vector2f);

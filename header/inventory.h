@@ -25,6 +25,11 @@ public:
 
 	uint16_t add(ItemType, uint16_t);
 
+	slot getItemAt(uint16_t);
+
 	bool hasItem(ItemType) const;
 	void print() const;
+
+	uint16_t getSlotAmmount() const;
+	uint16_t getSlotSize() const;
 };
