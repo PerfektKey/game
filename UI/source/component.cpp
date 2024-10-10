@@ -10,6 +10,7 @@ component::component(sf::Vector2f p, sf::Vector2f size) {
 	hitbox.setFillColor(sf::Color(255,255,255,0));
 	this->hitboxSize = size;
 	hitbox.setSize(hitboxSize);
+	hitbox.setPosition(p);
 }
 component::~component() {
 

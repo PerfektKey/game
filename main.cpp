@@ -16,6 +16,8 @@ uint16_t TileSize = 50;
 void PlaceTile(sf::Vector2f, world*);
 void printTileInfo(sf::Vector2f, world*);
 
+void piss();
+
 int main () {
 
 
@@ -39,8 +41,11 @@ int main () {
 	UI testUI;
 	label l(sf::Vector2f(50,50), "Test Text", sf::Color::White, 24, "assets/arial.ttf");
 	testUI.add("label1", &l);
-	testUI.setVisibility(true);
 
+	button b(sf::Vector2f(400,400), sf::Vector2f(50,50), sf::Color::White, &piss);
+	testUI.add("button", &b);
+
+	testUI.setVisibility(true);
 	// Game loop
 	while (window.isOpen()) {
 	
@@ -91,7 +96,9 @@ int main () {
 }
 
 
-
+void piss() {
+	std::cout << "I pissed I came I liked\n";
+}
 void PlaceTile(sf::Vector2f MapPosition, world* world)
 {
 	// change the map coordinates to world positioni

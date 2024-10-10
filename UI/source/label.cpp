@@ -47,6 +47,7 @@ void label::focusedMouse(sf::Vector2f mouse) {
 		return;
 
 	setPosition(mouse - sf::Vector2f(hitboxSize.x/2 , hitboxSize.y/2) );
+	std::cout << screenPosition.x << " " << screenPosition.y << "\n";
 }
 
 void label::setText(std::string s) {
