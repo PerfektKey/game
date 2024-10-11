@@ -16,11 +16,22 @@ uint16_t TileSize = 50;
 void PlaceTile(sf::Vector2f, world*);
 void printTileInfo(sf::Vector2f, world*);
 
-void piss();
+// enum for block types
+enum bs {
+	Nothing,
+	Base,
+	Spawner
+};
+bs choosen;
+building* bFactorie(sf::Vector2f, world*);
+// The functions for the buttons that select the building
+void selectBase();
+void selectSpawner();
+
 
 int main () {
 
-
+	choosen = bs::Nothing;
 	std::filesystem::path cwd = std::filesystem::current_path();
 	std::cout << cwd << "\n";
 	
@@ -42,8 +53,10 @@ int main () {
 	label l(sf::Vector2f(50,50), "Test Text", sf::Color::White, 24, "assets/arial.ttf");
 	testUI.add("label1", &l);
 
-	button b(sf::Vector2f(400,400), sf::Vector2f(50,50), sf::Color::White, &piss);
-	testUI.add("button", &b);
+	button SB(sf::Vector2f(400,700), sf::Vector2f(50,50), sf::Color::White, &selectBase);
+	button SS(sf::Vector2f(460,700), sf::Vector2f(50,50), sf::Color::White, &selectSpawner);
+	testUI.add("button SB", &SB);
+	testUI.add("button SS", &SS);
 
 	testUI.setVisibility(true);
 	// Game loop
@@ -70,10 +83,13 @@ int main () {
 				window.close();
 			// Check if building is placed
 			else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				PlaceTile(MapPosition,&WORLD );
+				if (choosen == bs::Nothing) 
+					testUI.action(event, sf::Vector2f(mouseP.x , mouseP.y));
+				else 
+					PlaceTile(MapPosition,&WORLD );
 				previousMapP = sf::Vector2f(0,0);
-			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
-				std::cout << "Update\n";
+			} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				choosen = bs::Nothing;
 			} else {
 				testUI.action(event, sf::Vector2f(mouseP.x , mouseP.y));
 			}
@@ -96,19 +112,36 @@ int main () {
 }
 
 
-void piss() {
-	std::cout << "I pissed I came I liked\n";
+void selectBase() {
+	choosen = bs::Base;	
 }
-void PlaceTile(sf::Vector2f MapPosition, world* world)
+void selectSpawner() {
+	choosen = bs::Spawner;
+}
+
+building* bFactorie(sf::Vector2f WP, world* w) {
+	switch (choosen) {
+		case bs::Nothing:
+			return NULL;
+		case bs::Base:
+			return new building(WP.x, WP.y, w, 5, 5);
+		case bs::Spawner:
+			return new spawner(WP.x, WP.y, w, 5 , 5, ItemType::Copper);
+	}
+}
+
+
+void PlaceTile(sf::Vector2f MapPosition, world* w)
 {
 	// change the map coordinates to world positioni
 	sf::Vector2f WorldPosition = sf::Vector2f(MapPosition.x*TileSize , MapPosition.y*TileSize );
-	building* b = new spawner(WorldPosition.x, WorldPosition.y, world, 5 , 5, ItemType::Copper);
-	if (world->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
+	building* b = bFactorie(WorldPosition, w);
+	if (b == NULL) return;
+	if (w->setBuilding(MapPosition.x, MapPosition.y, b) == NULL) 
 		std::cout << "Placed new tile at: " << MapPosition.x << ", " << MapPosition.y << "\n";
 	else {
 		std::cout << "Tile: " << MapPosition.x << ", " << MapPosition.y << " is already in use\n";
-		world->printInfo(MapPosition);
+		w->printInfo(MapPosition);
 		delete b;
 	}
 }

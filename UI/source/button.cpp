@@ -10,7 +10,7 @@ button::button(sf::Vector2f p, sf::Vector2f s, sf::Color c, void (*pf)()) :
 
 
 void button::action(sf::Event e, sf::Vector2f p) {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		if (p.x > screenPosition.x && p.x < screenPosition.x+hitboxSize.x && p.y > screenPosition.y && p.y < screenPosition.y+hitboxSize.y) {
 			// this button is right clicked
 			pressFunc();
