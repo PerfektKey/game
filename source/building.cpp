@@ -1,10 +1,23 @@
 #include "../header/building.h"
 
+#include "../header/world.h"
 
-building::building(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss) {
-	this->screenPosition = sf::Vector2f(x,y);
+building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint16_t ss) {
+	this->screenPosition = sp;
 	this->WORLD = w;
-	this->mapPosition = sf::Vector2f(0,0);
+	this->mapPosition = mp;
+
+	this->UIvis = false;
+	this->info = UI();
+		
+	this->inv = inventory(sa,ss);
+
+	this->type = "Normal Tile";
+}
+building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
+	this->screenPosition = sp;
+	this->WORLD = w;
+	this->mapPosition = WORLD->screenToMap(sp);
 
 	this->UIvis = false;
 	this->info = UI();

@@ -1,20 +1,36 @@
 #include "../blocks/spawner.h"
 
 
-spawner::spawner(uint16_t x, uint16_t y, world* w, uint16_t sa, uint16_t ss, ItemType sp) : 
-	building(x,y,w,sa,ss)
+spawner::spawner(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint16_t ss, ItemType st) : 
+	building(sp, mp, w, sa, ss)
 {
 	
-	this->Spawn = sp;
+	this->Spawn = st;
 	
 	this->type = "Spawner";
 
 	this->timeToSpawn = 1.5;
 	for (int i = 0; i < sa; i++) {
-		label* c = new label(sf::Vector2f(x,y), "", sf::Color::White, 12, "assets/arial.ttf");
+		label* c = new label(sp, "", sf::Color::White, 12, "assets/arial.ttf");
 		std::string k = "label " + i; 
 		this->info.add(k, c);
-		c->setPosition(sf::Vector2f(x, y - i*12));
+		c->setPosition(sp - sf::Vector2f(0, i*12));
+	}
+}
+spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType st) : 
+	building(sp,w,sa,ss)
+{
+	
+	this->Spawn = st;
+	
+	this->type = "Spawner";
+
+	this->timeToSpawn = 1.5;
+	for (int i = 0; i < sa; i++) {
+		label* c = new label(sp, "", sf::Color::White, 12, "assets/arial.ttf");
+		std::string k = "label " + i; 
+		this->info.add(k, c);
+		c->setPosition(sp - sf::Vector2f(0, i*12));
 	}
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?

@@ -22,7 +22,8 @@ protected:
 	UI info;	
 	bool UIvis;
 public:
-	building(uint16_t, uint16_t, world*, uint16_t,uint16_t);
+	building(sf::Vector2f, sf::Vector2f, world*, uint16_t,uint16_t);
+	building(sf::Vector2f, world*, uint16_t, uint16_t);
 	virtual ~building();
 
 	virtual void update(float);

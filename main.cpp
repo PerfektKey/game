@@ -124,9 +124,9 @@ building* bFactorie(sf::Vector2f WP, world* w) {
 		case bs::Nothing:
 			return NULL;
 		case bs::Base:
-			return new building(WP.x, WP.y, w, 5, 5);
+			return new building(WP, w, 5, 5);
 		case bs::Spawner:
-			return new spawner(WP.x, WP.y, w, 5 , 5, ItemType::Copper);
+			return new spawner(WP, w, 5 , 5, ItemType::Copper);
 	}
 }
 

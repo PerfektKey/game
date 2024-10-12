@@ -1,8 +1,10 @@
 #pragma once
 #include<vector>
 #include<stdint.h>
-#include "building.h"
 #include <SFML/Graphics.hpp>
+#include <cmath>
+
+class building;
 
 class world {
 private:
@@ -25,7 +27,7 @@ public:
 	uint16_t getWidth () const;
 	uint16_t getHeight() const;
 
-	sf::Vector2f windowToWorldPosition(sf::Vector2f) const;
+	sf::Vector2f screenToMap(sf::Vector2f) const;
 	bool isInWorld(sf::Vector2f) const;
 	
 };

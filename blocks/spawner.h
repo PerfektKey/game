@@ -10,7 +10,8 @@ private:
 	float timeToSpawn;
 	float elapsedTime;
 public:
-	spawner(uint16_t, uint16_t, world*, uint16_t, uint16_t, ItemType);
+	spawner(sf::Vector2f, sf::Vector2f, world*, uint16_t, uint16_t, ItemType);
+	spawner(sf::Vector2f, world*, uint16_t, uint16_t, ItemType);
 	~spawner();
 
 	void update(float);

@@ -1,5 +1,6 @@
 #include "../header/world.h"
 
+#include "../header/building.h"
 
 
 world::world(uint16_t w, uint16_t h, uint16_t ts) 
@@ -51,4 +52,6 @@ uint16_t world::getWidth() const {return this->width;}
 uint16_t world::getHeight() const {return this->height;}
 
 
-
+sf::Vector2f world::screenToMap(sf::Vector2f sp) const {
+	return sf::Vector2f( floor(sp.x/tileSize)*tileSize , floor(sp.y/tileSize)*tileSize );
+}
