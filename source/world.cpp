@@ -12,10 +12,15 @@ world::world(uint16_t w, uint16_t h, uint16_t ts)
 	this->tileSize = ts;
 }
 
-building* world::getBuilding(uint16_t wx, uint16_t hy) const {
+building* world::getBuilding(uint16_t wx, uint16_t hy) {
 	if (wx >= width || hy >= height) return NULL;
 
 	return map.at(wx).at(hy);
+}
+building* world::getBuilding(sf::Vector2f p) {
+	if (p.x >= width || p.y >= height) return NULL;
+
+	return map.at(p.x).at(p.y);
 }
 building* world::setBuilding(uint16_t wx, uint16_t hy, building* b)
 {
@@ -53,5 +58,5 @@ uint16_t world::getHeight() const {return this->height;}
 
 
 sf::Vector2f world::screenToMap(sf::Vector2f sp) const {
-	return sf::Vector2f( floor(sp.x/tileSize)*tileSize , floor(sp.y/tileSize)*tileSize );
+	return sf::Vector2f( floor(sp.x/tileSize) , floor(sp.y/tileSize) );
 }

@@ -17,7 +17,8 @@ private:
 public:
 	world(uint16_t,uint16_t, uint16_t);
 
-	building* getBuilding(uint16_t, uint16_t) const;
+	building* getBuilding(uint16_t, uint16_t);
+	building* getBuilding(sf::Vector2f);
 	building* setBuilding(uint16_t,uint16_t, building*);	
 	void printInfo(sf::Vector2f);
 

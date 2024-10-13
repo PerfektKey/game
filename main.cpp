@@ -8,6 +8,7 @@
 #include "blocks/spawner.h"
 #include "UI/label.h"
 #include "UI/UI.h"
+#include "blocks/inserter.h"
 
 #include <filesystem>
 
@@ -20,13 +21,15 @@ void printTileInfo(sf::Vector2f, world*);
 enum bs {
 	Nothing,
 	Base,
-	Spawner
+	Spawner,
+	Inserter
 };
 bs choosen;
 building* bFactorie(sf::Vector2f, world*);
 // The functions for the buttons that select the building
 void selectBase();
 void selectSpawner();
+void selectInserter();
 
 
 int main () {
@@ -53,10 +56,14 @@ int main () {
 	label l(sf::Vector2f(50,50), "Test Text", sf::Color::White, 24, "assets/arial.ttf");
 	testUI.add("label1", &l);
 
+	
+
 	button SB(sf::Vector2f(400,700), sf::Vector2f(50,50), sf::Color::White, &selectBase);
 	button SS(sf::Vector2f(460,700), sf::Vector2f(50,50), sf::Color::White, &selectSpawner);
+	button SI(sf::Vector2f(520,700), sf::Vector2f(50,50), sf::Color::White, &selectInserter);
 	testUI.add("button SB", &SB);
 	testUI.add("button SS", &SS);
+	testUI.add("button SI", &SI);
 
 	testUI.setVisibility(true);
 	// Game loop
@@ -118,6 +125,9 @@ void selectBase() {
 void selectSpawner() {
 	choosen = bs::Spawner;
 }
+void selectInserter() {
+	choosen = bs::Inserter;
+}
 
 building* bFactorie(sf::Vector2f WP, world* w) {
 	switch (choosen) {
@@ -127,7 +137,11 @@ building* bFactorie(sf::Vector2f WP, world* w) {
 			return new building(WP, w, 5, 5);
 		case bs::Spawner:
 			return new spawner(WP, w, 5 , 5, ItemType::Copper);
+		case bs::Inserter:
+			return new inserter(WP, w, 1, 5);
 	}
+
+	return NULL;
 }
 
 
