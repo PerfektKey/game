@@ -26,6 +26,8 @@ public:
 	building(sf::Vector2f, world*, uint16_t, uint16_t);
 	virtual ~building();
 
+	inventory* getInventory();
+
 	virtual void update(float);
 
 	uint16_t getX() const;

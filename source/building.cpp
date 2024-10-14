@@ -33,6 +33,10 @@ void building::update(float dt)
 
 }
 
+inventory* building::getInventory() {
+	return &inv;
+}
+
 void building::draw(sf::RenderWindow* w) const {
 	sf::RectangleShape shape;
 	shape.setFillColor(sf::Color::Black);

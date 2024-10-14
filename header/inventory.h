@@ -24,8 +24,10 @@ public:
 	inventory();
 
 	uint16_t add(ItemType, uint16_t);
+	uint16_t remove(ItemType, uint16_t);
 
 	slot getItemAt(uint16_t);
+	ItemType getLastItem() const;
 
 	bool hasItem(ItemType) const;
 	void print() const;

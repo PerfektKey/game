@@ -33,7 +33,7 @@ building* world::setBuilding(uint16_t wx, uint16_t hy, building* b)
 void world::printInfo(sf::Vector2f pos) 
 {
 
-	if (pos.x > width || pos.y > height) return;
+	if (pos.x >= width || pos.y >= height) return;
 	if (map[pos.x][pos.y] == NULL) return;
 
 	map[pos.x][pos.y]->printInfo();
