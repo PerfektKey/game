@@ -64,7 +64,10 @@ int main () {
 
 	float time = 0;
 	label l(sf::Vector2f(50,50), "Time: ", sf::Color::White, 24, "assets/arial.ttf");
+	float FPS = 0;
+	label labelFPS(sf::Vector2f(50,100), "FPS: ", sf::Color::White, 24, "assets/arial.ttf");
 	testUI.add("Time Label", &l);
+	testUI.add("FPS Label", &labelFPS);
 
 	
 
@@ -84,15 +87,6 @@ int main () {
 		// get mouse position and convert it to world position	
 		mouseP = sf::Mouse::getPosition(window);
 		sf::Vector2f MapPosition = sf::Vector2f( std::floor(mouseP.x/TileSize) , std::floor(mouseP.y/TileSize) ); 
-		if (MapPosition != previousMapP) { // if the mouse was moved
-			// if moved. then show info of the current building and hide the one of the previous
-			building* b = WORLD.getBuilding(MapPosition.x , MapPosition.y);
-			if (b != NULL) b->showUI(true);
-			// hide previous building
-			b = WORLD.getBuilding(previousMapP.x , previousMapP.y);
-			if (b != NULL) b->showUI(false);
-		}
-		previousMapP = MapPosition;
 
 		//- checking for events 
 		sf::Event event;
@@ -105,6 +99,14 @@ int main () {
 				if (choosen == bs::Nothing){ 
 					testUI.action(event, sf::Vector2f(mouseP.x , mouseP.y));
 					WORLD.printInfo(MapPosition);
+					if (MapPosition != previousMapP || true) { // if the mouse was moved
+						// if moved. then show info of the current building and hide the one of the previous
+						building* b = WORLD.getBuilding(MapPosition.x , MapPosition.y);
+						if (b != NULL) b->showUI(true);
+						// hide previous building
+//						b = WORLD.getBuilding(previousMapP.x , previousMapP.y);
+//						if (b != NULL) b->showUI(false);
+					}
 				} else 
 					PlaceTile(MapPosition,&WORLD );
 				previousMapP = sf::Vector2f(0,0);
@@ -118,15 +120,20 @@ int main () {
 				std::cout << "\tmanaged to remove " << a << "\n";
 			} else {
 				testUI.action(event, sf::Vector2f(mouseP.x , mouseP.y));
+				WORLD.UIAction(event, sf::Vector2f(mouseP.x , mouseP.y));			
 			}
 		}
 
+		previousMapP = MapPosition;
 		//l.focusedMouse(sf::Vector2f(mouseP.x, mouseP.y));
 
 		WORLD.update(dt.asSeconds()); // updating
+
 		time += dt.asSeconds();
-		dt = deltaClock.restart();
+		FPS = 1000/dt.asSeconds();
 		static_cast<label*>(testUI.getComponent("Time Label"))->setText("Time: " + std::to_string(time));
+		static_cast<label*>(testUI.getComponent("FPS Label"))->setText("FPS: " + std::to_string((int)FPS));
+		dt = deltaClock.restart();
 
 		// updating the frame
 		window.clear(sf::Color(180,180,180));
@@ -197,7 +204,7 @@ building* bFactorie(sf::Vector2f WP, world* w) {
 		case bs::Spawner:
 			return new spawner(WP, w, 5 , 5, ItemType::Copper);
 		case bs::Inserter:
-			return new inserter(WP, w, 2, 1);
+			return new inserter(WP, w, 2, 2);
 		case bs::Vault:
 			return new vault(WP, w, 10, 50);
 	}

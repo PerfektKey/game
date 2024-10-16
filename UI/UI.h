@@ -9,14 +9,15 @@
 
 class UI {
 protected:
-	std::unordered_map<std::string, component*> comps;
+	std::vector<std::unordered_map<std::string, component*>> comps; // The vector is the layers, index 0 is drawn and updated before index 1
 	
 public:
 	UI();
 	
-	void add(std::string, component*);
-	std::unordered_map<std::string, component*>* getComponents();
+	void add(std::string, component*, uint16_t=0);
+	std::vector<std::unordered_map<std::string, component*>>* getComponents();
 	component* getComponent(std::string);
+	component* getComponent(std::string, uint16_t);
 
 	void draw(sf::RenderWindow*) const;
 	void action(sf::Event, sf::Vector2f);

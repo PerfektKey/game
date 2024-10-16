@@ -29,6 +29,7 @@ public:
 	inventory* getInventory();
 
 	virtual void update(float);
+	void UIAction(sf::Event, sf::Vector2f);
 
 	uint16_t getX() const;
 	uint16_t getY() const;

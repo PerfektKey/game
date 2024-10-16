@@ -32,7 +32,9 @@ void building::update(float dt)
 {
 
 }
-
+void building::UIAction(sf::Event e, sf::Vector2f mouseP) {
+	info.action(e, mouseP);
+}
 inventory* building::getInventory() {
 	return &inv;
 }

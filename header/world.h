@@ -23,6 +23,7 @@ public:
 	void printInfo(sf::Vector2f);
 
 	void update(float);
+	void UIAction(sf::Event, sf::Vector2f);
 	void draw(sf::RenderWindow*) const;
 
 	uint16_t getWidth () const;

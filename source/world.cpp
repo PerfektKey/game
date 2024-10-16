@@ -42,10 +42,20 @@ void world::printInfo(sf::Vector2f pos)
 void world::update(float dt) 
 {
 	for (auto& i : map)
-	for (auto& b : i)
-		if (b != NULL) b->update(dt);
+	for (auto& b : i) {
+		if (b == NULL) continue;
+		 b->update(dt);
+	}
 }
 
+void world::UIAction(sf::Event e, sf::Vector2f mouseP) {
+	for (auto& i : map)
+	for (auto& b : i) {
+		if (b == NULL) continue;
+		 b->UIAction(e, mouseP);
+	}
+
+} 
 void world::draw(sf::RenderWindow* w) const
 {
 	for (auto& i : map)

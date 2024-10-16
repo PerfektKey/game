@@ -9,9 +9,10 @@ enum ItemType {
 
 struct ItemD {
 	std::string name;
+	std::string abbreviation;
 };
 
 const ItemD ItemData[] = {
-	{"empty"},
-	{"Copper"}
+	{"empty", "E"},
+	{"Copper", "C"}
 };
