@@ -20,11 +20,6 @@ spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType s
 	this->type = "Spawner";
 
 	this->timeToSpawn = 1.5;
-	
-	//component* c = new label(sp, "TT", sf::Color::White, 24, "assets/arial.ttf");
-	component* c = new component(sp, sf::Vector2f(80,40), sf::Color::White);
-	info.add("test",c, 0);
-	c->setMovable(true);
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?
 

@@ -20,10 +20,10 @@ public:
 	building* getBuilding(uint16_t, uint16_t);
 	building* getBuilding(sf::Vector2f);
 	building* setBuilding(uint16_t,uint16_t, building*);	
+	building* setBuilding(sf::Vector2f, building*);	
 	void printInfo(sf::Vector2f);
 
 	void update(float);
-	void UIAction(sf::Event, sf::Vector2f);
 	void draw(sf::RenderWindow*) const;
 
 	uint16_t getWidth () const;

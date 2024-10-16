@@ -5,7 +5,6 @@
 #include <iostream>
 #include "inventory.h"
 #include <string>
-#include "../includes.h"
 
 class world;
 
@@ -18,9 +17,6 @@ protected:
 	inventory inv;
 
 	std::string type;
-
-	UI info;	
-	bool UIvis;
 public:
 	building(sf::Vector2f, sf::Vector2f, world*, uint16_t,uint16_t);
 	building(sf::Vector2f, world*, uint16_t, uint16_t);
@@ -29,7 +25,6 @@ public:
 	inventory* getInventory();
 
 	virtual void update(float);
-	void UIAction(sf::Event, sf::Vector2f);
 
 	uint16_t getX() const;
 	uint16_t getY() const;
@@ -37,6 +32,4 @@ public:
 	void draw(sf::RenderWindow*) const;
 	
 	void printInfo() const;
-
-	void showUI(bool);
 };

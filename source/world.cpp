@@ -29,7 +29,12 @@ building* world::setBuilding(uint16_t wx, uint16_t hy, building* b)
 	map[wx][hy] = b;
 	return NULL;
 }
-
+building* world::setBuilding(sf::Vector2f pos, building* b) {
+	if (pos.x >= width || pos.y >= height) return b;
+	if (map[pos.x][pos.y] != NULL) return b;
+	map[pos.x][pos.y] = b;
+	return NULL;
+}	
 void world::printInfo(sf::Vector2f pos) 
 {
 
@@ -48,14 +53,6 @@ void world::update(float dt)
 	}
 }
 
-void world::UIAction(sf::Event e, sf::Vector2f mouseP) {
-	for (auto& i : map)
-	for (auto& b : i) {
-		if (b == NULL) continue;
-		 b->UIAction(e, mouseP);
-	}
-
-} 
 void world::draw(sf::RenderWindow* w) const
 {
 	for (auto& i : map)

@@ -7,9 +7,6 @@ building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint
 	this->WORLD = w;
 	this->mapPosition = mp;
 
-	this->UIvis = false;
-	this->info = UI();
-		
 	this->inv = inventory(sa,ss);
 
 	this->type = "Normal Tile";
@@ -19,9 +16,6 @@ building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
 	this->WORLD = w;
 	this->mapPosition = WORLD->screenToMap(sp);
 
-	this->UIvis = false;
-	this->info = UI();
-		
 	this->inv = inventory(sa,ss);
 
 	this->type = "Normal Tile";
@@ -31,9 +25,6 @@ building::~building() {}//I dont know if I should write anything in here
 void building::update(float dt)
 {
 
-}
-void building::UIAction(sf::Event e, sf::Vector2f mouseP) {
-	info.action(e, mouseP);
 }
 inventory* building::getInventory() {
 	return &inv;
@@ -45,8 +36,6 @@ void building::draw(sf::RenderWindow* w) const {
 	shape.setPosition(screenPosition);
 	shape.setSize(sf::Vector2f(50,50));
 	w->draw(shape);
-
-	if (UIvis) info.draw(w);
 }
 
 void building::printInfo() const
@@ -60,9 +49,4 @@ void building::printInfo() const
 	inv.print();
 
 	std::cout << "#############\n";
-}
-
-void building::showUI(bool b){
-	UIvis = b;
-	info.setVisibility(b);
 }
