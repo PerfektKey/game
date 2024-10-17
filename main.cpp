@@ -11,6 +11,10 @@
 #include "blocks/inserter.h"
 #include "blocks/vault.h"
 
+// UI
+#include "UserInterface/container.h"
+#include "UserInterface/component.h"
+
 // functions decleration
 void InputEvent(sf::Event, sf::RenderWindow*);
 building* buildingFactorie(sf::Vector2f);
@@ -33,7 +37,16 @@ sf::Clock deltaClock;
 sf::Time dt;
 
 int main() {
-	
+
+	// test UI
+	component* c1 = new component(sf::Vector2f(200,300), sf::Vector2f(100,50), sf::Color::Red);
+	component* c2 = new component(sf::Vector2f(200,320), sf::Vector2f(100,50), sf::Color::White);
+	component* c3 = new component(sf::Vector2f(270,290), sf::Vector2f(100,50), sf::Color::Blue);
+	container Cont;
+	Cont.add("Square 1", c1, 5);
+	Cont.add("Square 2", c2, 4);
+	Cont.add("Square 3", c3, 7);
+
 	//
 	toBuild = Buildings::nothing;
 
@@ -52,8 +65,10 @@ int main() {
 			InputEvent(event, &window);
 		}
 
+		// drawing
 		window.clear(sf::Color(180, 180, 180));
 		WORLD.draw(&window);
+		Cont.draw(&window);
 		WORLD.update(dt.asSeconds());
 		window.display();
 
