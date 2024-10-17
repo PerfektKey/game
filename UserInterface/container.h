@@ -14,6 +14,10 @@ public:
 	container();
 
 	component* add(std::string, component*, uint16_t);
+	component* get(std::string);
+	component* get(std::string, uint16_t);
+
+	virtual void action(sf::Event, sf::Vector2f);
 
 	void draw(sf::RenderWindow*);
 };

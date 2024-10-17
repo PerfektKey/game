@@ -19,8 +19,31 @@ component* container::add(std::string name, component* c, uint16_t layer) {
 	return NULL;
 }
 
+component* container::get(std::string name) {
+	// loop through layers
+	for (auto& layer : mComps) {
+		if (layer.find(name) == layer.end()) continue;
+
+		return layer.at(name);
+	}
+
+	return NULL;
+}
+component* container::get(std::string name, uint16_t layer) {
+	// loop through layers
+	if (mComps.at(layer).find(name) == mComps.at(layer).end()) return NULL;
+
+	return mComps.at(layer).at(name);
+
+}
 void container::draw(sf::RenderWindow* w) {
 	for (int i = mComps.size()-1; i >= 0; i--)
 	for (auto& [k,v] : mComps[i])
 		if (v != NULL) v->draw(w);
+}
+
+void container::action(sf::Event e, sf::Vector2f p) {
+	for (int i = mComps.size()-1; i >= 0; i--)
+	for (auto& [k,v] : mComps[i])
+		if (v != NULL) v->action(e,p);
 }

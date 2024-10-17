@@ -8,3 +8,6 @@ make:
 test:
 	g++ $(FLAGS) test.cpp source/*.cpp -o test $(INC)
 	./test
+UITest:
+	g++ $(FLAGS) UITest.cpp source/*.cpp -o UITest $(INC)
+	./UITest

@@ -1,9 +1,11 @@
 #include "../UserInterface/component.h"
 
-component::component(sf::Vector2f pos, sf::Vector2f size) {
+component::component(sf::Vector2f pos, sf::Vector2f size, container* c) {
 	mGlobalPosition = pos;
 	mRelativPosition = sf::Vector2f(0,0);
 	mRelativAnchor = sf::Vector2f(0,0);
+
+	mParent = c;
 	
 	mHitboxSize = size;
 	mHitbox.setSize(size);
@@ -11,14 +13,21 @@ component::component(sf::Vector2f pos, sf::Vector2f size) {
 	mHitbox.setPosition(pos);
 }
 				      
-component::component(sf::Vector2f pos, sf::Vector2f size, sf::Color c) :
-	component(pos, size) {
+component::component(sf::Vector2f pos, sf::Vector2f size, container* p, sf::Color c) :
+	component(pos, size, p) {
 	
 	mHitbox.setFillColor(c);
 }
 
-void component::draw(sf::RenderWindow* w) const {
+void component::draw(sf::RenderWindow* w){
 	w->draw(mHitbox);
+}
+
+void component::update(float dt) {
+	// nothing to see here
+}
+void component::action(sf::Event e, sf::Vector2f mp) {
+	// looks so empty >:(
 }
 
 void component::setSize(sf::Vector2f s) {mHitboxSize = s;}
