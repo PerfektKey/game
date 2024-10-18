@@ -23,7 +23,10 @@ void label::draw(sf::RenderWindow* w){
 	w->draw(mText);
 }
 
-void label::setString(std::string s) {mContent = s;}
+void label::setContent(std::string s) {
+	mContent = s;
+	mText.setString(mContent);
+}
 std::string label::getContent() const {return mContent;}
 
 void label::loadFont(std::string s) {

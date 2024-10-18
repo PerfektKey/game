@@ -23,7 +23,7 @@ public:
 
 	virtual void draw(sf::RenderWindow*);
 
-	void setString(std::string);
+	void setContent(std::string);
 	std::string getContent() const;
 
 	void loadFont(std::string);

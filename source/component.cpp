@@ -43,7 +43,10 @@ void component::setRelativPosition(sf::Vector2f p) {
 }
 sf::Vector2f component::getRelativPosition() const {return mRelativPosition;}
 
-void component::setRelativAnchor(sf::Vector2f p) {mRelativAnchor = p;}
+void component::setRelativAnchor(sf::Vector2f p) {
+	mRelativAnchor = p;
+	mGlobalPosition = mRelativAnchor + mRelativPosition;
+}
 sf::Vector2f component::getRelativAnchor() const {return mRelativAnchor;}
 
 container* component::getParent() {return mParent;}

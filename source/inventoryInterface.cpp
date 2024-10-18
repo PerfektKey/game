@@ -9,7 +9,7 @@ inventoryInterface::inventoryInterface() {
 	mCont = NULL;
 }
 
-void inventoryInterface::update() {
+void inventoryInterface::createUI() {
 
 	component* backGround = new component(mGlobalPosition, sf::Vector2f(400,200), mCont, sf::Color(0,0,150,130));
 	mCont->add("BG", backGround, 3);
@@ -26,6 +26,16 @@ void inventoryInterface::update() {
 
 	// add labels that are inventory
 	// is 4x8 with a size of 12
+	// but the inventory may not be 4x8
+	// calculate rows and collums
+	inventory* invP = mRef->getInventory();
+	const uint16_t ROWS = 8;
+	const uint16_t COLLUMS = 5; // may be useless
+	uint16_t slots = invP->getSlotAmmount();
+	uint16_t rows = floor(slots/COLLUMS); // ammount of full rows
+	uint16_t collums = slots % COLLUMS; // ammount of leftover collums
+	
+	/*
 	for (int y = 0;y < 8; y++)
 		for (int x = 0; x < 4; x++) {
 			component* invSlot = new label(sf::Vector2f(0,0), mCont, "assets/arial.ttf", 12, sf::Color::Black, "ABx100"); 
@@ -35,6 +45,30 @@ void inventoryInterface::update() {
 			mCont->add(slotName, invSlot, 0);
 		}
 
+	*/
+	// add full rows
+	for (int r = 0;r < rows; r++)
+		for (int c = 0; c < COLLUMS;c++) {
+			// convert rows, collums to index
+			// if row = 1, collum 3 then index = 1*5+3
+			const slot& currSlot = invP->getItemAt(r*COLLUMS+c);
+			std::string info = ItemData[currSlot.type].abbreviation + "x" + std::to_string(currSlot.ammount);
+			component* invSlot = new label(sf::Vector2f(0,0), mCont, "assets/arial.ttf", 12, sf::Color::Black, info); 
+			invSlot->setRelativAnchor(mGlobalPosition);
+			invSlot->setRelativPosition(sf::Vector2f(10+72*c, 60+r*16));
+			std::string slotName = "Slot " + std::to_string(c) + "x" + std::to_string(r);
+			mCont->add(slotName, invSlot, 0);
+		}
+	// add leftover collums
+	for (int c = 0;c < collums;c++) {
+		const slot& currSlot = invP->getItemAt(rows*COLLUMS+c);
+		std::string info = ItemData[currSlot.type].abbreviation + "x" + std::to_string(currSlot.ammount);
+		component* invSlot = new label(sf::Vector2f(0,0), mCont, "assets/arial.ttf", 12, sf::Color::Black, info); 
+		invSlot->setRelativAnchor(mGlobalPosition);
+		invSlot->setRelativPosition(sf::Vector2f(10+72*c, 60+rows*16));
+		std::string slotName = "Slot " + std::to_string(c) + "x" + std::to_string(rows);
+		mCont->add(slotName, invSlot, 0);
+	}
 } 
 
 void inventoryInterface::setRef(building* b) {
@@ -51,7 +85,35 @@ void inventoryInterface::setRef(building* b) {
 	mGlobalPosition = mRef->getPosition();
 	mGlobalPosition.x += mRef->getSize().x;
 	
-	update();
+	createUI();
+}
+
+void inventoryInterface::update() {
+	if (mRef == NULL) return;
+	// 
+	inventory* invP = mRef->getInventory();
+	const uint16_t ROWS = 8;
+	const uint16_t COLLUMS = 5; // may be useless
+	uint16_t slots = invP->getSlotAmmount();
+	uint16_t rows = floor(slots/COLLUMS); // ammount of full rows
+	uint16_t collums = slots % COLLUMS; // ammount of leftover collums
+	for (int r = 0;r < rows; r++)
+		for (int c = 0; c < COLLUMS;c++) {
+			const slot& currSlot = invP->getItemAt(r*COLLUMS+c);
+			std::string info = ItemData[currSlot.type].abbreviation + "x" + std::to_string(currSlot.ammount);
+			std::string slotName = "Slot " + std::to_string(c) + "x" + std::to_string(r);
+			component* comp = mCont->get(slotName, 0);
+			label* l = static_cast<label*>(comp);
+			l->setContent(info);	
+		}	
+	for (int c = 0;c < collums;c++) {
+		const slot& currSlot = invP->getItemAt(rows*COLLUMS+c);
+		std::string info = ItemData[currSlot.type].abbreviation + "x" + std::to_string(currSlot.ammount);
+		std::string slotName = "Slot " + std::to_string(c) + "x" + std::to_string(rows);
+		component* comp = mCont->get(slotName, 0);
+		label* l = static_cast<label*>(comp);
+		l->setContent(info);
+	}	
 }
 
 void inventoryInterface::draw(sf::RenderWindow* w) {

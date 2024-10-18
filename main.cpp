@@ -68,6 +68,7 @@ int main() {
 		window.clear(sf::Color(180, 180, 180));
 		WORLD.draw(&window);
 		interface.draw(&window);
+		interface.update();
 		WORLD.update(dt.asSeconds());
 		window.display();
 
