@@ -11,9 +11,10 @@ class world;
 class building {
 protected:
 	sf::Vector2f screenPosition;
-	world* WORLD;
 	sf::Vector2f mapPosition;
+	sf::Vector2f mSize;
 
+	world* WORLD;
 	inventory inv;
 
 	std::string type;
@@ -26,8 +27,9 @@ public:
 
 	virtual void update(float);
 
-	uint16_t getX() const;
-	uint16_t getY() const;
+	sf::Vector2f getSize() const;
+	sf::Vector2f getPosition() const;
+	std::string getType() const;
 
 	void draw(sf::RenderWindow*) const;
 	

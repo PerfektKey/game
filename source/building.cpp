@@ -19,6 +19,8 @@ building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
 	this->inv = inventory(sa,ss);
 
 	this->type = "Normal Tile";
+
+	mSize = sf::Vector2f(50,50);
 }
 building::~building() {}//I dont know if I should write anything in here
 
@@ -50,3 +52,9 @@ void building::printInfo() const
 
 	std::cout << "#############\n";
 }
+
+sf::Vector2f building::getSize() const {return mSize;}
+sf::Vector2f building::getPosition() const {return screenPosition;}
+std::string building::getType() const {return type;}
+
+

@@ -31,6 +31,8 @@ public:
 	void setRelativPosition(sf::Vector2f);
 	sf::Vector2f getRelativPosition() const;
 
-	void setRelaticAnchor(sf::Vector2f);
+	void setRelativAnchor(sf::Vector2f);
 	sf::Vector2f getRelativAnchor() const;
+
+	container* getParent();
 };

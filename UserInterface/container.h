@@ -19,5 +19,7 @@ public:
 
 	virtual void action(sf::Event, sf::Vector2f);
 
+	void show(bool);
+
 	void draw(sf::RenderWindow*);
 };

@@ -12,24 +12,24 @@ world::world(uint16_t w, uint16_t h, uint16_t ts)
 	this->tileSize = ts;
 }
 
-building* world::getBuilding(uint16_t wx, uint16_t hy) {
+building* world::get(uint16_t wx, uint16_t hy) {
 	if (wx >= width || hy >= height) return NULL;
 
 	return map.at(wx).at(hy);
 }
-building* world::getBuilding(sf::Vector2f p) {
+building* world::get(sf::Vector2f p) {
 	if (p.x >= width || p.y >= height) return NULL;
 
 	return map.at(p.x).at(p.y);
 }
-building* world::setBuilding(uint16_t wx, uint16_t hy, building* b)
+building* world::set(uint16_t wx, uint16_t hy, building* b)
 {
 	if (wx >= width || hy >= height) return b;
 	if (map[wx][hy] != NULL) return b;
 	map[wx][hy] = b;
 	return NULL;
 }
-building* world::setBuilding(sf::Vector2f pos, building* b) {
+building* world::set(sf::Vector2f pos, building* b) {
 	if (pos.x >= width || pos.y >= height) return b;
 	if (map[pos.x][pos.y] != NULL) return b;
 	map[pos.x][pos.y] = b;

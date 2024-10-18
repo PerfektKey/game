@@ -20,6 +20,7 @@ component::component(sf::Vector2f pos, sf::Vector2f size, container* p, sf::Colo
 }
 
 void component::draw(sf::RenderWindow* w){
+	mHitbox.setPosition(mGlobalPosition);
 	w->draw(mHitbox);
 }
 
@@ -36,8 +37,13 @@ sf::Vector2f component::getSize() const {return mHitboxSize;}
 void component::setGlobalPosition(sf::Vector2f pos) {mGlobalPosition = pos;}
 sf::Vector2f component::getGlobalPosition() const {return mGlobalPosition;}
 
-void component::setRelativPosition(sf::Vector2f p) {mRelativPosition = p;}
+void component::setRelativPosition(sf::Vector2f p) {
+	mRelativPosition = p;
+	mGlobalPosition = mRelativPosition + mRelativAnchor;
+}
 sf::Vector2f component::getRelativPosition() const {return mRelativPosition;}
 
-void component::setRelaticAnchor(sf::Vector2f p) {mRelativAnchor = p;}
+void component::setRelativAnchor(sf::Vector2f p) {mRelativAnchor = p;}
 sf::Vector2f component::getRelativAnchor() const {return mRelativAnchor;}
+
+container* component::getParent() {return mParent;}

@@ -15,6 +15,7 @@
 #include "UserInterface/container.h"
 #include "UserInterface/component.h"
 #include "UserInterface/label.h"
+#include "UserInterface/inventoryInterface.h"
 
 // functions decleration
 void InputEvent(sf::Event, sf::RenderWindow*);
@@ -37,7 +38,13 @@ world WORLD(20,20, TILE_SIZE);
 sf::Clock deltaClock;
 sf::Time dt;
 
+// A UI inventory
+inventoryInterface interface;
+
+
 int main() {
+
+
 
 	//
 	toBuild = Buildings::nothing;
@@ -60,6 +67,7 @@ int main() {
 		// drawing
 		window.clear(sf::Color(180, 180, 180));
 		WORLD.draw(&window);
+		interface.draw(&window);
 		WORLD.update(dt.asSeconds());
 		window.display();
 
@@ -72,6 +80,8 @@ int main() {
 
 void InputEvent(sf::Event e, sf::RenderWindow* w) {
 	
+	interface.action(e, mousePosition);
+
 	if (e.type == sf::Event::Closed) {
 		w->close();
 	// building choose related 
@@ -87,8 +97,11 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 		// eithe place a building or print the info
 		if (toBuild != Buildings::nothing)
 			placeBuilding(WORLD.screenToMap(mousePosition));
-		else
-			WORLD.printInfo(WORLD.screenToMap(mousePosition));
+		else {
+			building* b =  WORLD.get(WORLD.screenToMap(mousePosition));
+			if (b != NULL) interface.setRef(b);
+			//WORLD.printInfo(WORLD.screenToMap(mousePosition));
+		}
 	}
 }
 
@@ -114,7 +127,7 @@ void placeBuilding(sf::Vector2f pos) {
 	if (b == NULL) return;
 
 	// place building
-	if (WORLD.setBuilding(pos, b) == NULL) return;
+	if (WORLD.set(pos, b) == NULL) return;
 
 	delete b;
 }

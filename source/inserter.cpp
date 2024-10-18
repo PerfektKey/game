@@ -21,8 +21,8 @@ void inserter::update(float dt) {
 	if (timer < speed) return;
 	timer -= speed;
 	
-	building* source = WORLD->getBuilding(mapPosition - sf::Vector2f(1, 0));
-	building* target = WORLD->getBuilding(mapPosition + sf::Vector2f(1, 0));
+	building* source = WORLD->get(mapPosition - sf::Vector2f(1, 0));
+	building* target = WORLD->get(mapPosition + sf::Vector2f(1, 0));
 	
 //	std::cout <<"\tsource: " << source << "\n";
 //	std::cout <<"\ttarget: " << target << "\n";

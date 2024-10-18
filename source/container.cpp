@@ -36,7 +36,15 @@ component* container::get(std::string name, uint16_t layer) {
 	return mComps.at(layer).at(name);
 
 }
+
+
+
+void container::show(bool b) {
+	mShow = b;
+}
 void container::draw(sf::RenderWindow* w) {
+	if (!mShow) return;
+
 	for (int i = mComps.size()-1; i >= 0; i--)
 	for (auto& [k,v] : mComps[i])
 		if (v != NULL) v->draw(w);
