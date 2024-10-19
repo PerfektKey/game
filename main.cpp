@@ -10,6 +10,7 @@
 #include "blocks/spawner.h"
 #include "blocks/inserter.h"
 #include "blocks/vault.h"
+#include "blocks/conveyor.h"
 
 // UI
 #include "UserInterface/container.h"
@@ -27,7 +28,8 @@ enum Buildings {
 	nothing,
 	Spawner,
 	Inserter,
-	Vault
+	Vault,
+	Conveyor
 };
 Buildings toBuild;
 
@@ -92,6 +94,8 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 		toBuild = Buildings::Inserter;	
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
 		toBuild = Buildings::Vault;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
+		toBuild = Buildings::Conveyor;
 	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 		toBuild = Buildings::nothing; 
 	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -117,6 +121,8 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 			return new inserter(worldPosition, &WORLD, 2, 1);
 		case Buildings::Vault:
 			return new vault(worldPosition, &WORLD, 10, 20);
+		case Buildings::Conveyor:
+			return new conveyor(worldPosition, &WORLD, 6, 1, (1/6) );
 	}
 
 	return NULL;

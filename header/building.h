@@ -31,7 +31,7 @@ public:
 	sf::Vector2f getPosition() const;
 	std::string getType() const;
 
-	void draw(sf::RenderWindow*) const;
+	virtual void draw(sf::RenderWindow*) const;
 	
 	void printInfo() const;
 };
