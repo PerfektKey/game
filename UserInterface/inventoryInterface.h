@@ -9,14 +9,16 @@
 #include "button.h"
 #include <cmath>
 
-void hideInterface(component*);
 
+//void hideInterface(component*); 
+
+	
 class inventoryInterface {
 private:
 	sf::Vector2f mGlobalPosition;
 	building* mRef; // the building that is 
 	container* mCont; // the container
-	void createUI();
+//	void createUI();
 public:
 	inventoryInterface();
 	      

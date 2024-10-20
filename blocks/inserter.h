@@ -1,5 +1,7 @@
-#include "../header/building.h"
+#pragma once
 
+#include "../header/building.h"
+#include "conveyor.h"
 
 class inserter : public building {
 protected:

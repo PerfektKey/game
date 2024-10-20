@@ -11,6 +11,7 @@ private:
 	inventory view;
 
 	uint16_t mSlotAmmount;
+	inventory mShiftInv; // inv from base class(building) is just the outer access inventory
 
 	void shiftInv();
 public:

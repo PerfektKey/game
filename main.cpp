@@ -122,7 +122,7 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 		case Buildings::Vault:
 			return new vault(worldPosition, &WORLD, 10, 20);
 		case Buildings::Conveyor:
-			return new conveyor(worldPosition, &WORLD, 6, 1, (1/6) );
+			return new conveyor(worldPosition, &WORLD, 6, 1, (uint16_t)3 );
 	}
 
 	return NULL;

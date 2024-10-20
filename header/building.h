@@ -5,8 +5,11 @@
 #include <iostream>
 #include "inventory.h"
 #include <string>
+#include "../UserInterface/include.h"
 
 class world;
+
+void hideInterface(component*);
 
 class building {
 protected:
@@ -24,6 +27,11 @@ public:
 	virtual ~building();
 
 	inventory* getInventory();
+
+	virtual container* createUI() const;
+	virtual container* createInventoryUI(const inventory*) const;
+	virtual void updateUI(container*) const;
+	virtual void updateInventoryUI(container*, const inventory*) const;
 
 	virtual void update(float);
 

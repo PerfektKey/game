@@ -2,13 +2,14 @@
 
 #include "../header/world.h"
 
-conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, float tps) :
-	building(pos, w, sa, ss) { // access inventory has a size of 1
-	mSpeed = 1/tps * ss; 
+conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, float sp) :
+	building(pos, w, 1, ss) { // access inventory has a size of 1
+	mSpeed = sp;
 	mTimer = 0;
 
-	std::cout << mSpeed << "\n";
-
+	mShiftInv = inventory(sa-1, ss);
+	mSlotAmmount = sa;
+	
 	view = inventory(mSlotAmmount, 99);
 	
 	type = "conveyor";
@@ -48,23 +49,20 @@ void conveyor::shiftInv() {
 	//
 	// for loop from last slot to first
 	// if slot i is empty replace with slot i-1
-	for (uint16_t i = inv.getSlotAmmount()-1; i > 0; i--) {
-		if (inv.getSlot(i).type != ItemType::EMPTY) continue;
-		inv.setSlot(i, inv.getSlot(i-1));
-		inv.setSlot(i-1, slot());
+	for (uint16_t i = mSlotAmmount-2; i > 0; i--) {
+		if (mShiftInv.getSlot(i).type != ItemType::EMPTY) continue;
+		mShiftInv.setSlot(i, mShiftInv.getSlot(i-1));
+		mShiftInv.setSlot(i-1, slot());
 	}
 	
-
 	// do first index shift (shift from access to shift inventory)
-/*
-	if (inv.getSlot(0).type != ItemType::EMPTY) return;
-	inv.setSlot(0, inv.getSlot(0));
+	if (mShiftInv.getSlot(0).type != ItemType::EMPTY) return;
+	mShiftInv.setSlot(0, inv.getSlot(0));
 	inv.setSlot(0, slot());
-*/
 }
 slot conveyor::getOut() {
-	slot ret = inv.getSlot(mSlotAmmount-2);
-	inv.setSlot(mSlotAmmount-2, slot());
+	slot ret = mShiftInv.getSlot(mSlotAmmount-2);
+	mShiftInv.setSlot(mSlotAmmount-2, slot());
 	return ret;
 }
 
@@ -79,31 +77,31 @@ void conveyor::update(float dt) {
 	// only do it if the timer is up
 	mTimer += dt;
 	if (mTimer < mSpeed) return;
-	
-	while (mTimer >= mSpeed) {
-		mTimer -= mSpeed;
+	mTimer -= mSpeed;
 
-		// get the next and previous blocks
-		building* source = WORLD->get(mapPosition + sf::Vector2f(-1,0));
-		building* target = WORLD->get(mapPosition + sf::Vector2f(1,0));
+	// 	shifting:
+	//		[conv1][conv2][conv3]
+	//		conv1 has to ask conv2 to take(update)
+	//		conv2 has to ask conv3 to take(update)
+	//		conv3 cant ask next to take(update) goes backward
 
-		// first update the target
-		if (target != NULL && target->getType() == "conveyor") {
-			target->update(dt); // will cause this to be updated multible times a frame <<-- fix this
-		}
+	// get the next and previous blocks
+	building* source = WORLD->get(mapPosition + sf::Vector2f(-1,0));
+	building* target = WORLD->get(mapPosition + sf::Vector2f(1,0));
 
-		// then shift my own shiftInventory
-		shiftInv();
+	// first update the target
+	if (target != NULL && target->getType() == "conveyor") {
+		target->update(dt); // will cause this to be updated multible times a frame <<-- fix this
+	}
 
-		// then take from the source(if it is a conveyor) and put it into my inventory
-		if (source != NULL && source->getType() == "conveyor" && inv.getSlot(0).type == ItemType::EMPTY) {
-			uint16_t sourceLast = source->getInventory()->getSlotAmmount() - 1; // last index of slots, last of the slots 
-			slot si = source->getInventory()->remove(sourceLast, inv.getSlotSize());
-			inv.add(si.type, si.ammount, 0);
-	//		conveyor* conv = (conveyor*)source;
-	//		slot s = conv->getOut();
-	//		inv.setSlot(0, s);
-			
-		}
+	// then shift my own shiftInventory
+	shiftInv();
+
+	// then take from the source(if it is a conveyor) and put it into my inventory
+	if (source != NULL && source->getType() == "conveyor" && inv.getSlot(0).type == ItemType::EMPTY) {
+		conveyor* conv = (conveyor*)source;
+		slot s = conv->getOut();
+		inv.setSlot(0, s);
+		
 	}
 }

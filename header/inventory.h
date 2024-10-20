@@ -10,6 +10,7 @@ struct slot {
 	ItemType type;
 	uint16_t ammount;
 	slot();
+	slot(ItemType, uint16_t);
 };
 
 class inventory
@@ -24,9 +25,12 @@ public:
 	inventory();
 
 	uint16_t add(ItemType, uint16_t);
+	uint16_t add(ItemType, uint16_t, uint16_t);
 	uint16_t remove(ItemType, uint16_t);
+	slot remove(uint16_t,  uint16_t);
 
-	slot getItemAt(uint16_t);
+	slot getSlot(uint16_t) const;
+	bool setSlot(uint16_t, slot);
 	ItemType getLastItem() const;
 
 	bool hasItem(ItemType) const;

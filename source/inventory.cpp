@@ -1,9 +1,11 @@
 #include "../header/inventory.h"
 
-slot::slot()
-{
+slot::slot() {
 	this->type = ItemType::EMPTY;
 	this->ammount = 0;
+}
+slot::slot(ItemType t, uint16_t amm) :
+	type(t), ammount(amm){
 }
 
 inventory::inventory(uint16_t sa, uint16_t ss) 
@@ -46,6 +48,22 @@ uint16_t inventory::add(ItemType t, uint16_t amm) {
 	return toAdd;
 }
 
+uint16_t inventory::add(ItemType t, uint16_t toAdd, uint16_t index) {
+	if (index >= slotAmmount) return toAdd;
+	if (slots[index].type != t && slots[index].type != ItemType::EMPTY) return toAdd;
+
+	// calculate space left in slot
+	uint16_t spaceLeft = slotSize - slots[index].ammount;
+	// calculate how much can be added
+	uint16_t addable = std::min(toAdd, spaceLeft);
+	
+	slots[index].type = t;
+	slots[index].ammount += addable;
+
+
+	return toAdd - addable; // returns how much couldnt be added
+
+}
 
 
 ItemType inventory::getLastItem() const {
@@ -84,10 +102,27 @@ uint16_t inventory::remove(ItemType t, uint16_t amm) {
 	return (amm - toRemove); // returns how much has been added
 }
 
-slot inventory::getItemAt(uint16_t ind) {
+slot inventory::remove(uint16_t index,  uint16_t toRemove) {
+	if (index >= slotAmmount) return slot();
+	
+	uint16_t removable = std::min(slots[index].ammount, toRemove);
+	slots[index].ammount -= removable;
+	ItemType t = slots[index].type;
+
+	if (slots[index].ammount == 0 ) slots[index].type = ItemType::EMPTY;
+
+	return slot(t, removable);
+}
+
+slot inventory::getSlot(uint16_t ind) const {
 	if (ind >= slotAmmount) return slot();
 	return slots[ind];
 
+}
+bool inventory::setSlot(uint16_t i, slot s) {
+	if (i >= slotAmmount) return false;
+	slots[i] = s;
+	return true;
 }
 
 uint16_t inventory::getSlotAmmount() const {return slotAmmount;}
