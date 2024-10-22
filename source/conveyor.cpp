@@ -2,15 +2,13 @@
 
 #include "../header/world.h"
 
-conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, float tps) :
+conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, uint16_t r , float tps) :
 	building(pos, w, sa, ss) { // access inventory has a size of 1
 	mSpeed = 1/tps * ss; 
 	mTimer = 0;
-
-	std::cout << mSpeed << "\n";
-
-	view = inventory(mSlotAmmount, 99);
 	
+	setRotation(r);
+
 	type = "conveyor";
 }
 
@@ -19,25 +17,18 @@ void conveyor::draw(sf::RenderWindow* w) const {
 	// drawing two triangles pointing in the direction
 	sf::CircleShape triangle1(10,3);
 	triangle1.setPosition(screenPosition + sf::Vector2f(25,15));
+	triangle1.setOrigin(5,5);
 	triangle1.setFillColor(sf::Color::Black);
-	triangle1.rotate(90);
+	triangle1.rotate(mRotation);
 	w->draw(triangle1);
 	
 	sf::CircleShape triangle2(10,3);
 	triangle2.setPosition(screenPosition + sf::Vector2f(45,15));
+	triangle2.setOrigin(5,5);
 	triangle2.setFillColor(sf::Color::Black);
-	triangle2.rotate(90);
+	triangle2.rotate(mRotation);
 	w->draw(triangle2);
 }
-
-/*
-inventory* conveyor::getInventory() {
-	view.setSlot(0, inv.getSlot(0));
-	for (uint16_t i = 0; i < mSlotAmmount-1;i++)
-		view.setSlot(i+1, mShiftInv.getSlot(i));
-	return &view;
-}
-*/
 
 void conveyor::shiftInv() {
 
@@ -53,14 +44,6 @@ void conveyor::shiftInv() {
 		inv.setSlot(i, inv.getSlot(i-1));
 		inv.setSlot(i-1, slot());
 	}
-	
-
-	// do first index shift (shift from access to shift inventory)
-/*
-	if (inv.getSlot(0).type != ItemType::EMPTY) return;
-	inv.setSlot(0, inv.getSlot(0));
-	inv.setSlot(0, slot());
-*/
 }
 slot conveyor::getOut() {
 	slot ret = inv.getSlot(mSlotAmmount-2);
@@ -69,12 +52,43 @@ slot conveyor::getOut() {
 }
 
 // only takes stuff: has to ask next inventory to take from itself
-		
+
+void conveyor::setRotation(uint16_t r) {
+	if (r == 360) r = 0;
+	mRotation = r;
+	switch (r) {
+		case 0:
+			mSourceOffset = sf::Vector2f(0,1);
+			mTargetOffset = sf::Vector2f(0,-1);
+			break;
+		case 90:
+			mSourceOffset = sf::Vector2f(-1,0);
+			mTargetOffset = sf::Vector2f(1,0);
+			break;
+		case 180:
+			mSourceOffset = sf::Vector2f(0,-1);
+			mTargetOffset = sf::Vector2f(0,1);
+			break;
+		case 270:
+			mSourceOffset = sf::Vector2f(1,0);
+			mTargetOffset = sf::Vector2f(-1,0);
+			break;
+		default:
+			std::cout << "Invalid rotation of " << r << " in " << this << "\n";
+			std::cout << "setting rotation to 0 " << "\n";
+			setRotation(0);
+			break;
+	}
+}
+
 		// UPDATE DOESNT CHECK HOW MUCH IT TAKES!!!!
 
-void conveyor::update(float dt) {
+void conveyor::update(float dt, uint16_t frame) {
 	// update only onces per frame
 	// 	-> check if it has been updated this frame
+
+	if (mFrame == frame) return; // it has already been updated this frame
+	mFrame = frame;
 
 	// only do it if the timer is up
 	mTimer += dt;
@@ -84,9 +98,31 @@ void conveyor::update(float dt) {
 		mTimer -= mSpeed;
 
 		// get the next and previous blocks
-		building* source = WORLD->get(mapPosition + sf::Vector2f(-1,0));
-		building* target = WORLD->get(mapPosition + sf::Vector2f(1,0));
+		building* source = WORLD->get(mapPosition + mSourceOffset);
+		building* target = WORLD->get(mapPosition + mTargetOffset);
 
+
+		// conv1 conv2 conv3
+		// conv1 source == NULL
+		// 	conv1 shifts
+		// conv2 
+		// 	source == conv1
+
+		// first update source
+		shiftInv();
+		if (source != NULL && source->getType() == "conveyor") {
+			source->update(dt, frame);
+		}
+		// put item in target if conveyor
+		
+		if (target != NULL && target->getType() == "conveyor" && target->getInventory()->getSlot(0).type == ItemType::EMPTY) {
+			target->update(dt, frame);
+			inventory* tInv = target->getInventory();
+			slot si = inv.remove( (inv.getSlotAmmount()-1) , tInv->getSlotSize());
+			tInv->add(si.type, si.ammount, 0);
+		}
+		return;
+/*
 		// first update the target
 		if (target != NULL && target->getType() == "conveyor") {
 			target->update(dt); // will cause this to be updated multible times a frame <<-- fix this
@@ -105,5 +141,6 @@ void conveyor::update(float dt) {
 	//		inv.setSlot(0, s);
 			
 		}
+*/
 	}
 }

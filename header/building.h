@@ -21,6 +21,10 @@ protected:
 	inventory inv;
 
 	std::string type;
+
+	uint16_t mFrame;
+
+	uint16_t mRotation;
 public:
 	building(sf::Vector2f, sf::Vector2f, world*, uint16_t,uint16_t);
 	building(sf::Vector2f, world*, uint16_t, uint16_t);
@@ -33,11 +37,14 @@ public:
 	virtual void updateUI(container*) const;
 	virtual void updateInventoryUI(container*, const inventory*) const;
 
-	virtual void update(float);
+	virtual void update(float, uint16_t);
 
 	sf::Vector2f getSize() const;
 	sf::Vector2f getPosition() const;
 	std::string getType() const;
+
+	virtual void setRotation(uint16_t);
+	uint16_t getRotation() const;
 
 	virtual void draw(sf::RenderWindow*) const;
 	

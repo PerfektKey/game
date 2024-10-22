@@ -12,5 +12,5 @@ protected:
 public:
 	inserter(sf::Vector2f, world*, float, uint16_t);
 
-	virtual void update(float);
+	virtual void update(float, uint16_t);
 };

@@ -44,12 +44,12 @@ void world::printInfo(sf::Vector2f pos)
 	map[pos.x][pos.y]->printInfo();
 }
 
-void world::update(float dt) 
+void world::update(float dt, uint16_t frame) 
 {
 	for (auto& i : map)
 	for (auto& b : i) {
 		if (b == NULL) continue;
-		 b->update(dt);
+		 b->update(dt, frame);
 	}
 }
 

@@ -23,7 +23,7 @@ spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType s
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?
 
-void spawner::update(float dt) {
+void spawner::update(float dt, uint16_t frame) {
 
 	// add the time since last frame to the time since the last spawning
 	elapsedTime += dt;

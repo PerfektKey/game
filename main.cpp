@@ -22,6 +22,7 @@
 void InputEvent(sf::Event, sf::RenderWindow*);
 building* buildingFactorie(sf::Vector2f);
 void placeBuilding(sf::Vector2f);
+void rotate();
 
 // data
 enum Buildings {
@@ -37,6 +38,10 @@ sf::Vector2f mousePosition = sf::Vector2f();
 const uint16_t TILE_SIZE = 50;
 world WORLD(20,20, TILE_SIZE);
 
+uint16_t rotation = 0;
+bool oPressed = false;
+
+uint16_t frame = 0;
 sf::Clock deltaClock;
 sf::Time dt;
 
@@ -45,8 +50,6 @@ inventoryInterface interface;
 
 
 int main() {
-
-
 
 	//
 	toBuild = Buildings::nothing;
@@ -71,10 +74,11 @@ int main() {
 		WORLD.draw(&window);
 		interface.draw(&window);
 		interface.update();
-		WORLD.update(dt.asSeconds());
+		WORLD.update(dt.asSeconds(), frame);
 		window.display();
 
 		dt = deltaClock.restart();
+		frame++;
 	}
 
 
@@ -98,6 +102,10 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 		toBuild = Buildings::Conveyor;
 	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 		toBuild = Buildings::nothing; 
+		rotation = 0; // reseting rotation
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+		if (toBuild != Buildings::nothing) rotate();
+		oPressed = true;
 	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 		// eithe place a building or print the info
 		if (toBuild != Buildings::nothing)
@@ -107,9 +115,16 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 			if (b != NULL) interface.setRef(b);
 			//WORLD.printInfo(WORLD.screenToMap(mousePosition));
 		}
+	} else if (e.type == sf::Event::KeyReleased) {
+		if (e.key.code == sf::Keyboard::O) oPressed = false;
 	}
 }
 
+void rotate() {
+	if (oPressed) return;
+	rotation += 90;
+	if (rotation >= 360) rotation = 0;
+}
 
 building* buildingFactorie(sf::Vector2f worldPosition) {
 	switch (toBuild) {
@@ -122,7 +137,7 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 		case Buildings::Vault:
 			return new vault(worldPosition, &WORLD, 10, 20);
 		case Buildings::Conveyor:
-			return new conveyor(worldPosition, &WORLD, 6, 1, (uint16_t)3 );
+			return new conveyor(worldPosition, &WORLD, 6, 1, rotation, 3 );
 	}
 
 	return NULL;

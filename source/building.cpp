@@ -10,6 +10,8 @@ building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint
 	this->inv = inventory(sa,ss);
 
 	this->type = "Normal Tile";
+	
+	mFrame = 0;
 }
 building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
 	this->screenPosition = sp;
@@ -21,10 +23,12 @@ building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
 	this->type = "Normal Tile";
 
 	mSize = sf::Vector2f(50,50);
+
+	mFrame = 0;
 }
 building::~building() {}//I dont know if I should write anything in here
 
-void building::update(float dt)
+void building::update(float dt, uint16_t frame)
 {
 
 }
@@ -57,6 +61,11 @@ sf::Vector2f building::getSize() const {return mSize;}
 sf::Vector2f building::getPosition() const {return screenPosition;}
 std::string building::getType() const {return type;}
 
+void building::setRotation(uint16_t rot) {
+	// not much happening here for most buildings
+	mRotation = rot;
+}
+uint16_t building::getRotation() const {return mRotation;}
 
 container* building::createUI() const {
 	return createInventoryUI(&inv);

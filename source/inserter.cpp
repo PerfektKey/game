@@ -11,7 +11,7 @@ inserter::inserter(sf::Vector2f sp, world* w, float sd, uint16_t ts):
 }
 
 
-void inserter::update(float dt) {
+void inserter::update(float dt, uint16_t frame) {
 	timer += dt;
 
 	if (timer < speed) return;
