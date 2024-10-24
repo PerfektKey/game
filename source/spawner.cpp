@@ -9,7 +9,7 @@ spawner::spawner(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint16
 	
 	this->type = "Spawner";
 
-	this->timeToSpawn = 1.5;
+	this->timeToSpawn = .5;
 }
 spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType st) : 
 	building(sp,w,sa,ss)
@@ -19,7 +19,7 @@ spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType s
 	
 	this->type = "Spawner";
 
-	this->timeToSpawn = 1.5;
+	this->timeToSpawn = .5;
 }
 spawner::~spawner() {}//I dont know if i should delete anythin here?
 

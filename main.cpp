@@ -133,7 +133,7 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 		case Buildings::Spawner:
 			return new spawner(worldPosition, &WORLD, 5,5, ItemType::Copper);
 		case Buildings::Inserter:
-			return new inserter(worldPosition, &WORLD, 2, 1);
+			return new inserter(worldPosition, &WORLD, 1, rotation, 2);
 		case Buildings::Vault:
 			return new vault(worldPosition, &WORLD, 10, 20);
 		case Buildings::Conveyor:
