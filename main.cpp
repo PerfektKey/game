@@ -131,7 +131,7 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 		case Buildings::nothing:
 			return NULL;
 		case Buildings::Spawner:
-			return new spawner(worldPosition, &WORLD, 5,5, ItemType::Copper);
+			return new spawner(worldPosition, &WORLD, 5,5, ItemType::CopperOre, 2);
 		case Buildings::Inserter:
 			return new inserter(worldPosition, &WORLD, 1, rotation, 2);
 		case Buildings::Vault:

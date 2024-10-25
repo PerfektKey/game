@@ -131,7 +131,7 @@ container* building::createInventoryUI(const inventory* invP) const {
 	return mCont;
 }
 
-void building::updateUI(container* c) const {
+void building::updateUI(container* c) {
 	updateInventoryUI(c, &inv);
 }
 void building::updateInventoryUI(container* mCont, const inventory* invP) const {

@@ -34,7 +34,7 @@ public:
 
 	virtual container* createUI() const;
 	virtual container* createInventoryUI(const inventory*) const;
-	virtual void updateUI(container*) const;
+	virtual void updateUI(container*);
 	virtual void updateInventoryUI(container*, const inventory*) const;
 
 	virtual void update(float, uint16_t);

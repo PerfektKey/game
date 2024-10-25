@@ -3,8 +3,8 @@
 
 enum ItemType {
 	EMPTY = 0,
-	Copper,
-	Iron
+	CopperOre,
+	CopperPlate
 };
 
 struct ItemD {
@@ -14,5 +14,6 @@ struct ItemD {
 
 const ItemD ItemData[] = {
 	{"empty", "E"},
-	{"Copper", "C"}
+	{"Copper Ore", "Co"},
+	{"Copper Plate", "Cp"}
 };
