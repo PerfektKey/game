@@ -78,7 +78,7 @@ int main() {
 		window.display();
 
 		dt = deltaClock.restart();
-		frame++;
+		frame++;  // overflow resets frame counter
 	}
 
 

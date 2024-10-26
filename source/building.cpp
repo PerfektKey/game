@@ -79,7 +79,7 @@ container* building::createInventoryUI(const inventory* invP) const {
 	sf::Vector2f mGlobalPosition = screenPosition;
 	mGlobalPosition.x += mSize.x;
 
-	container* mCont = new container();
+	container* mCont = new container(NULL);
 
 	component* backGround = new component(mGlobalPosition, sf::Vector2f(400,200), mCont, sf::Color(0,0,150,130));
 	mCont->add("BG", backGround, 3);

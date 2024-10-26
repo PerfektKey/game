@@ -1,7 +1,8 @@
 #include "../UserInterface/container.h"
 
 
-container::container() {
+container::container(container* cont) :
+	component(sf::Vector2f(0,0), sf::Vector2f(0,0), cont){
 	mShow = false;
 
 	mComps.push_back(std::unordered_map<std::string, component*>());
@@ -9,6 +10,21 @@ container::container() {
 	mComps.push_back(std::unordered_map<std::string, component*>());
 }
 
+container::container(sf::Vector2f pos, container* cont) :
+	container(cont) {
+	
+	setGlobalPosition(pos);	
+}
+
+container::~container() {
+	while (mComps.size() > 0) {
+		for (auto& [k,v] : mComps[mComps.size()-1]) {
+			delete v;
+			
+		}
+		mComps.pop_back();
+	}
+}
 
 component* container::add(std::string name, component* c, uint16_t layer) {
 	if (layer > 10) std::cout << "\033[31mTrying to acces layer " << layer << " is this correct?\033[37m\n";

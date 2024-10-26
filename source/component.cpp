@@ -6,6 +6,10 @@ component::component(sf::Vector2f pos, sf::Vector2f size, container* c) {
 	mRelativAnchor = sf::Vector2f(0,0);
 
 	mParent = c;
+	if (mParent == NULL)
+		isOrphan = true;
+	else
+		isOrphan = false;
 	
 	mHitboxSize = size;
 	mHitbox.setSize(size);
@@ -50,3 +54,8 @@ void component::setRelativAnchor(sf::Vector2f p) {
 sf::Vector2f component::getRelativAnchor() const {return mRelativAnchor;}
 
 container* component::getParent() {return mParent;}
+void component::setParent(container* c) {
+	mParent = c;
+	if (mParent != NULL)
+		isOrphan = false;
+}

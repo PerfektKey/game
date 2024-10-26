@@ -3,6 +3,8 @@
 #include <math.h>
 #include "../header/building.h"
 
+void openInv(component*);
+
 class spawner : public building {
 private:
 	ItemType mSpawn;
@@ -12,7 +14,6 @@ private:
 	
 	container* selectUI() const;
 	void checkButtons(container*);
-
 public:
 	spawner(sf::Vector2f, sf::Vector2f, world*, uint16_t, uint16_t, ItemType, float);
 	spawner(sf::Vector2f, world*, uint16_t, uint16_t, ItemType, float);

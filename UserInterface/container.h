@@ -6,12 +6,15 @@
 #include <string>
 #include "component.h" 
 
-class container {
+class container : public component {
 protected:
 	std::vector<std::unordered_map<std::string , component*>> mComps;
 	bool mShow;
 public:
-	container();
+	container(container*);
+	container(sf::Vector2f, container*);
+
+	~container();
 
 	component* add(std::string, component*, uint16_t);
 	component* get(std::string);

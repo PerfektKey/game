@@ -71,16 +71,6 @@ void inventoryInterface::setRef(building* b) {
 	if (mCont != NULL) delete mCont;
 
 	mCont = mRef->createUI();
-
-	return;
-
-	mCont = new container();
-	mCont->show(true);
-
-	mGlobalPosition = mRef->getPosition();
-	mGlobalPosition.x += mRef->getSize().x;
-	
-//	createUI();
 }
 
 void inventoryInterface::update() {

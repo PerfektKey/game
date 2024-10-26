@@ -14,6 +14,8 @@ protected:
 
 	sf::RectangleShape mHitbox;
 	sf::Vector2f mHitboxSize;
+
+	bool isOrphan;
 public:
 	component(sf::Vector2f, sf::Vector2f, container*); // position on screen and size
 	component(sf::Vector2f, sf::Vector2f, container*, sf::Color); // position on screen and size
@@ -35,4 +37,5 @@ public:
 	sf::Vector2f getRelativAnchor() const;
 
 	container* getParent();
+	void setParent(container*);
 };
