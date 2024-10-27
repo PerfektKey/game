@@ -29,6 +29,7 @@ public:
 	uint16_t remove(ItemType, uint16_t);
 	slot remove(uint16_t,  uint16_t);
 
+	const slot* get(ItemType);
 	slot getSlot(uint16_t) const;
 	bool setSlot(uint16_t, slot);
 	ItemType getLastItem() const;

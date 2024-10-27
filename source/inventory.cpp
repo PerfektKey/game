@@ -114,6 +114,15 @@ slot inventory::remove(uint16_t index,  uint16_t toRemove) {
 	return slot(t, removable);
 }
 
+const slot* inventory::get(ItemType t) {
+	
+	for (const slot& s : slots) {
+		if (s.type == t) return &s;
+	}
+
+	return NULL;
+}
+
 slot inventory::getSlot(uint16_t ind) const {
 	if (ind >= slotAmmount) return slot();
 	return slots[ind];

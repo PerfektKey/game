@@ -11,6 +11,7 @@
 #include "blocks/inserter.h"
 #include "blocks/vault.h"
 #include "blocks/conveyor.h"
+#include "blocks/crafter.h"
 
 // UI
 #include "UserInterface/container.h"
@@ -30,9 +31,22 @@ enum Buildings {
 	Spawner,
 	Inserter,
 	Vault,
-	Conveyor
+	Conveyor,
+	Crafter
 };
 Buildings toBuild;
+
+std::unordered_map<std::string, recepie> FurnaceReceps = {
+	{"Test 101", recepie(1, {
+				slot(ItemType::CopperOre, 1)
+			},
+			{
+				slot(ItemType::CopperPlate, 1)
+			}
+			)
+	}
+
+};
 
 sf::Vector2f mousePosition = sf::Vector2f();
 const uint16_t TILE_SIZE = 50;
@@ -100,6 +114,8 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 		toBuild = Buildings::Vault;
 	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
 		toBuild = Buildings::Conveyor;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
+		toBuild = Buildings::Crafter;
 	} else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
 		toBuild = Buildings::nothing; 
 		rotation = 0; // reseting rotation
@@ -138,6 +154,8 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 			return new vault(worldPosition, &WORLD, 10, 20);
 		case Buildings::Conveyor:
 			return new conveyor(worldPosition, &WORLD, 6, 1, rotation, 3 );
+		case Buildings::Crafter:
+			return new crafter(worldPosition, &WORLD, &FurnaceReceps, 1);
 	}
 
 	return NULL;
