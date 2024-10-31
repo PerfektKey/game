@@ -32,7 +32,7 @@ private:
 	
 	bool selectRecepie(const std::string&);
 public:
-	crafter(sf::Vector2f, world*, std::unordered_map<std::string, recepie>*, float);
+	crafter(sf::Vector2f, world*, std::string, std::unordered_map<std::string, recepie>*, float);
 
 	inventory* getOutput();
 

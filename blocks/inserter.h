@@ -2,6 +2,7 @@
 
 #include "../header/building.h"
 #include "conveyor.h"
+#include "crafter.h"
 
 class inserter : public building {
 protected:
@@ -13,10 +14,10 @@ protected:
 	
 	uint16_t transferSize;
 public:
-	inserter(sf::Vector2f, world*, uint16_t, uint16_t, float);
+	inserter(sf::Vector2f, world*, std::string, uint16_t, uint16_t, float);
 
 	virtual void setRotation(uint16_t);
 	
-	virtual void draw(sf::RenderWindow*) const;
+//	virtual void draw(sf::RenderWindow*) const;
 	virtual void update(float, uint16_t);
 };

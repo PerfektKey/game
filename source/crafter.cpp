@@ -7,9 +7,11 @@ recepie::recepie(float time, std::vector<slot> inputs, std::vector<slot> outs) {
 	mOutputs = outs;
 }
 
-crafter::crafter (sf::Vector2f p, world* w, std::unordered_map<std::string, recepie>* recs, float sp) :
-	building(p,w,1,1) {
-	
+crafter::crafter (sf::Vector2f p, world* w, std::string ass, std::unordered_map<std::string, recepie>* recs, float sp) :
+	building(p,w, ass,1,1) {
+
+	type = "crafter";
+
 	mRecepies = recs;	
 	mTimeModifier = sp;
 
@@ -19,6 +21,7 @@ crafter::crafter (sf::Vector2f p, world* w, std::unordered_map<std::string, rece
 	selectRecepie("Test 101");
 }
 
+inventory* crafter::getOutput() {return &mOutputInv;}
 
 bool crafter::selectRecepie(const std::string& rec) {
 	if (mRecepies->find(rec) == mRecepies->end()) return false;
@@ -37,8 +40,6 @@ bool crafter::selectRecepie(const std::string& rec) {
 	}
 
 	mOutputInv = inventory(mCurrentRecepie->mOutputs.size(), 20+1);
-
-	inv.print();
 
 	return true;
 }
@@ -82,6 +83,4 @@ void crafter::update(float dt, uint16_t frame) {
 	for (const slot& s : mCurrentRecepie->mInputs) {
 		inv.remove(s.type, s.ammount);	
 	}
-	
-	mOutputInv.print();
 }

@@ -2,8 +2,8 @@
 
 #include "../header/world.h"
 
-conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, uint16_t r , float tps) :
-	building(pos, w, sa, ss) { // access inventory has a size of 1
+conveyor::conveyor(sf::Vector2f pos, world* w, std::string p, uint16_t sa, uint16_t ss, uint16_t r , float tps) :
+	building(pos, w, p, sa, ss) { // access inventory has a size of 1
 	mSpeed = 1/tps * ss; 
 	mTimer = 0;
 	
@@ -12,6 +12,7 @@ conveyor::conveyor(sf::Vector2f pos, world* w, uint16_t sa, uint16_t ss, uint16_
 	type = "conveyor";
 }
 
+/*
 void conveyor::draw(sf::RenderWindow* w) const {
 	// just a placeholder for before the sprite is created
 	// drawing two triangles pointing in the direction
@@ -29,7 +30,7 @@ void conveyor::draw(sf::RenderWindow* w) const {
 	triangle2.rotate(mRotation);
 	w->draw(triangle2);
 }
-
+*/
 void conveyor::shiftInv() {
 
 	// have to shift the inventory i.e.:
@@ -56,22 +57,23 @@ slot conveyor::getOut() {
 void conveyor::setRotation(uint16_t r) {
 	if (r == 360) r = 0;
 	mRotation = r;
+	mSprite.setRotation(r);
 	switch (r) {
 		case 0:
-			mSourceOffset = sf::Vector2f(0,1);
-			mTargetOffset = sf::Vector2f(0,-1);
-			break;
-		case 90:
 			mSourceOffset = sf::Vector2f(-1,0);
 			mTargetOffset = sf::Vector2f(1,0);
 			break;
-		case 180:
+		case 90:
 			mSourceOffset = sf::Vector2f(0,-1);
 			mTargetOffset = sf::Vector2f(0,1);
 			break;
-		case 270:
+		case 180:
 			mSourceOffset = sf::Vector2f(1,0);
 			mTargetOffset = sf::Vector2f(-1,0);
+			break;
+		case 270:
+			mSourceOffset = sf::Vector2f(0,1);
+			mTargetOffset = sf::Vector2f(0,-1);
 			break;
 		default:
 			std::cout << "Invalid rotation of " << r << " in " << this << "\n";

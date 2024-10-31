@@ -11,21 +11,26 @@ building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint
 
 	this->type = "Normal Tile";
 	
-	mFrame = 0;
-}
-building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) {
-	this->screenPosition = sp;
-	this->WORLD = w;
-	this->mapPosition = WORLD->screenToMap(sp);
-
-	this->inv = inventory(sa,ss);
-
-	this->type = "Normal Tile";
-
-	mSize = sf::Vector2f(50,50);
+	mSize = sf::Vector2f(w->getTileSize(),w->getTileSize());
+	
+	screenPosition += sf::Vector2f(mSize.x/2, mSize.y/2);
 
 	mFrame = 0;
 }
+building::building(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss) :
+	building(sp, w->screenToMap(sp), w, sa, ss) {
+
+}
+building::building(sf::Vector2f sp, world* w, std::string assetPath, uint16_t sa, uint16_t ss) :
+	building(sp,w, sa, ss) {
+	
+	loadSpriteTexture(assetPath);	
+
+	mSprite.setPosition(screenPosition);
+	mSprite.setOrigin(mSize.x/2, mSize.y/2);
+}
+
+
 building::~building() {}//I dont know if I should write anything in here
 
 void building::update(float dt, uint16_t frame)
@@ -36,12 +41,18 @@ inventory* building::getInventory() {
 	return &inv;
 }
 
+void building::loadSpriteTexture(const std::string& s) {
+	mTexturePath = s;
+	if (!mTexture.loadFromFile(mTexturePath)) {
+		std::cout << "\033[31m unable to load " << mTexturePath <<"\033[m37\n";
+		std::exit(1);
+	}
+
+	mSprite.setTexture(mTexture);
+}
+
 void building::draw(sf::RenderWindow* w) const {
-	sf::RectangleShape shape;
-	shape.setFillColor(sf::Color::Black);
-	shape.setPosition(screenPosition);
-	shape.setSize(sf::Vector2f(50,50));
-	w->draw(shape);
+	w->draw(mSprite);
 }
 
 void building::printInfo() const

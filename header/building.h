@@ -17,6 +17,10 @@ protected:
 	sf::Vector2f mapPosition;
 	sf::Vector2f mSize;
 
+	std::string mTexturePath;
+	sf::Texture mTexture;
+	sf::Sprite mSprite;
+
 	world* WORLD;
 	inventory inv;
 
@@ -28,6 +32,7 @@ protected:
 public:
 	building(sf::Vector2f, sf::Vector2f, world*, uint16_t,uint16_t);
 	building(sf::Vector2f, world*, uint16_t, uint16_t);
+	building(sf::Vector2f, world*, std::string, uint16_t, uint16_t);
 	virtual ~building();
 
 	inventory* getInventory();
@@ -45,7 +50,8 @@ public:
 
 	virtual void setRotation(uint16_t);
 	uint16_t getRotation() const;
-
+	
+	void loadSpriteTexture(const std::string&);
 	virtual void draw(sf::RenderWindow*) const;
 	
 	void printInfo() const;

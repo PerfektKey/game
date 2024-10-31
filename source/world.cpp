@@ -7,7 +7,8 @@ world::world(uint16_t w, uint16_t h, uint16_t ts)
 {
 	this->width  = w;	
 	this->height = h;
-	this->map = std::vector<std::vector<building*>>(w, std::vector<building*>(h, NULL));
+	this->map = std::vector<std::vector<building*>> (w, std::vector<building*> (h, NULL));
+	this->tiles = std::vector<std::vector<sf::Sprite>>(w, std::vector<sf::Sprite>(h, sf::Sprite()));
 	
 	this->tileSize = ts;
 }
@@ -35,6 +36,16 @@ building* world::set(sf::Vector2f pos, building* b) {
 	map[pos.x][pos.y] = b;
 	return NULL;
 }	
+
+
+//void world::setTile(sf::Texture*, sf::Vector2f);
+void world::setTile(sf::Texture* t, uint16_t x, uint16_t y) {
+	if (x >= width || y >= height) return;
+
+	tiles[x][y].setTexture(*t);
+	tiles[x][y].setPosition(sf::Vector2f(x*tileSize,y*tileSize));
+}
+
 void world::printInfo(sf::Vector2f pos) 
 {
 
@@ -55,6 +66,9 @@ void world::update(float dt, uint16_t frame)
 
 void world::draw(sf::RenderWindow* w) const
 {
+	for (auto& t : tiles)
+	for (auto& s : t)
+		w->draw(s);
 	for (auto& i : map)
 	for (auto& b : i)
 		if (b != NULL) b->draw(w);
@@ -62,7 +76,7 @@ void world::draw(sf::RenderWindow* w) const
 
 uint16_t world::getWidth() const {return this->width;}
 uint16_t world::getHeight() const {return this->height;}
-
+uint16_t world::getTileSize() const {return tileSize;}
 
 sf::Vector2f world::screenToMap(sf::Vector2f sp) const {
 	return sf::Vector2f( floor(sp.x/tileSize) , floor(sp.y/tileSize) );

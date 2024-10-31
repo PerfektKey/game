@@ -9,6 +9,7 @@ class building;
 class world {
 private:
 	std::vector<std::vector<building*>> map;
+	std::vector<std::vector<sf::Sprite>> tiles;
 
 	uint16_t tileSize;
 
@@ -23,11 +24,15 @@ public:
 	building* set(sf::Vector2f, building*);	
 	void printInfo(sf::Vector2f);
 
+	void setTile(sf::Texture*, sf::Vector2f);
+	void setTile(sf::Texture*, uint16_t, uint16_t);
+
 	void update(float, uint16_t);
 	void draw(sf::RenderWindow*) const;
 
 	uint16_t getWidth () const;
 	uint16_t getHeight() const;
+	uint16_t getTileSize() const;
 
 	sf::Vector2f screenToMap(sf::Vector2f) const;
 	bool isInWorld(sf::Vector2f) const;

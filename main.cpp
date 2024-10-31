@@ -5,6 +5,8 @@
 #include "header/world.h"
 #include <stdint.h>
 
+#include "header/worldGeneration.h"
+
 // blocks
 #include "header/building.h"
 #include "blocks/spawner.h"
@@ -71,6 +73,8 @@ int main() {
 	// window
 	sf::RenderWindow window(sf::VideoMode(1000, 800), "SFML GAME");
 	
+	worldGeneration::fill(&WORLD);
+
 	// Game Loop
 	while (window.isOpen()) {
 		
@@ -147,15 +151,15 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 		case Buildings::nothing:
 			return NULL;
 		case Buildings::Spawner:
-			return new spawner(worldPosition, &WORLD, 5,5, ItemType::CopperOre, 2);
+			return new spawner(worldPosition, &WORLD,"assets/blocks/spawner/spawner01.png", 5,5, ItemType::CopperOre, 2);
 		case Buildings::Inserter:
-			return new inserter(worldPosition, &WORLD, 1, rotation, 2);
+			return new inserter(worldPosition, &WORLD, "assets/blocks/inserter/inserter02.png", 1, rotation, 2);
 		case Buildings::Vault:
-			return new vault(worldPosition, &WORLD, 10, 20);
+			return new vault(worldPosition, &WORLD, "assets/blocks/storage/storage01.png", 10, 20);
 		case Buildings::Conveyor:
-			return new conveyor(worldPosition, &WORLD, 6, 1, rotation, 3 );
+			return new conveyor(worldPosition, &WORLD, "assets/blocks/conveyor/conveyor01.png", 6, 1, rotation, 3 );
 		case Buildings::Crafter:
-			return new crafter(worldPosition, &WORLD, &FurnaceReceps, 1);
+			return new crafter(worldPosition, &WORLD, "assets/blocks/crafter/crafter01.png", &FurnaceReceps, 1);
 	}
 
 	return NULL;

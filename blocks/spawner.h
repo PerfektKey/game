@@ -15,8 +15,7 @@ private:
 	container* selectUI() const;
 	void checkButtons(container*);
 public:
-	spawner(sf::Vector2f, sf::Vector2f, world*, uint16_t, uint16_t, ItemType, float);
-	spawner(sf::Vector2f, world*, uint16_t, uint16_t, ItemType, float);
+	spawner(sf::Vector2f, world*, std::string, uint16_t, uint16_t, ItemType, float);
 	~spawner();
 	
 	virtual container* createUI() const;	

@@ -5,18 +5,8 @@ void openInv(component* c) {
 	static_cast<container*>(cont->get("inventory UI", 3))->show(true);
 }
 
-spawner::spawner(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint16_t ss, ItemType st, float ips) : 
-	building(sp, mp, w, sa, ss)
-{
-	
-	this->mSpawn = st;
-	
-	this->type = "Spawner";
-
-	this->timeToSpawn = 1/ips;
-}
-spawner::spawner(sf::Vector2f sp, world* w, uint16_t sa, uint16_t ss, ItemType st, float ips) : 
-	building(sp,w,sa,ss)
+spawner::spawner(sf::Vector2f sp, world* w, std::string ass, uint16_t sa, uint16_t ss, ItemType st, float ips) : 
+	building(sp,w, ass,sa,ss)
 {
 	
 	this->mSpawn = st;
