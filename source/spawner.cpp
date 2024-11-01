@@ -29,7 +29,7 @@ container* spawner::selectUI() const {
 	container* mCont = new container(NULL);
 
 	// up 50(tile size) + size of board pixels
-	component* bg = new component(screenPosition+sf::Vector2f(0, -250), sf::Vector2f(200, 250), mCont, sf::Color(0,0,180,125));
+	component* bg = new component(mWorldPosition+sf::Vector2f(0, -250), sf::Vector2f(200, 250), mCont, sf::Color(0,0,180,125));
 	mCont->add("bg", bg, 3);
 
 	button* b = new button(sf::Vector2f(0,0), sf::Vector2f(50,50), mCont, sf::Color(255,0,0), hideInterface);

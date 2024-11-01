@@ -29,6 +29,7 @@ public:
 
 	void update(float, uint16_t);
 	void draw(sf::RenderWindow*) const;
+	void cameraMoved(sf::Vector2f);
 
 	uint16_t getWidth () const;
 	uint16_t getHeight() const;

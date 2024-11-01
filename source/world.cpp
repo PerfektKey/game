@@ -74,6 +74,15 @@ void world::draw(sf::RenderWindow* w) const
 		if (b != NULL) b->draw(w);
 }
 
+void world::cameraMoved(sf::Vector2f p) {
+	for (uint16_t x = 0; x < width; x++)
+	for (uint16_t y = 0; y < height; y++)
+		tiles[x][y].setPosition(sf::Vector2f(x*tileSize,y*tileSize) - p);
+	for (auto& i : map)
+	for (auto& b : i)
+		if (b != NULL) b->setCameraOffset(p);
+}
+
 uint16_t world::getWidth() const {return this->width;}
 uint16_t world::getHeight() const {return this->height;}
 uint16_t world::getTileSize() const {return tileSize;}

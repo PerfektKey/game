@@ -3,7 +3,8 @@
 #include "../header/world.h"
 
 building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint16_t ss) {
-	this->screenPosition = sp;
+	mWorldPosition = sp;
+	mScreenPosition = mWorldPosition;
 	this->WORLD = w;
 	this->mapPosition = mp;
 
@@ -13,7 +14,7 @@ building::building(sf::Vector2f sp, sf::Vector2f mp, world* w, uint16_t sa, uint
 	
 	mSize = sf::Vector2f(w->getTileSize(),w->getTileSize());
 	
-	screenPosition += sf::Vector2f(mSize.x/2, mSize.y/2);
+	mWorldPosition += sf::Vector2f(mSize.x/2, mSize.y/2);
 
 	mFrame = 0;
 }
@@ -26,7 +27,7 @@ building::building(sf::Vector2f sp, world* w, std::string assetPath, uint16_t sa
 	
 	loadSpriteTexture(assetPath);	
 
-	mSprite.setPosition(screenPosition);
+	mSprite.setPosition(mWorldPosition);
 	mSprite.setOrigin(mSize.x/2, mSize.y/2);
 }
 
@@ -55,12 +56,13 @@ void building::draw(sf::RenderWindow* w) const {
 	w->draw(mSprite);
 }
 
+
 void building::printInfo() const
 {
 	std::cout << "#############\n";
 	std::cout << "Building [" << type << "]\n";
 	std::cout << "at Map x: " << mapPosition.x << " Map y: " << mapPosition.y << "\n";
-	std::cout << "at Screen x: " << screenPosition.x << " Screen y: " << screenPosition.y << "\n";
+	std::cout << "at Screen x: " << mWorldPosition.x << " Screen y: " << mWorldPosition.y << "\n";
 
 	std::cout << "Inventory: \n";
 	inv.print();
@@ -69,8 +71,18 @@ void building::printInfo() const
 }
 
 sf::Vector2f building::getSize() const {return mSize;}
-sf::Vector2f building::getPosition() const {return screenPosition;}
+sf::Vector2f building::getPosition() const {return mWorldPosition;}
+sf::Vector2f building::getScreenPosition() const {return mScreenPosition;}
 std::string building::getType() const {return type;}
+
+void building::setScreenPosition(sf::Vector2f p) {
+	mScreenPosition = p;
+	mSprite.setPosition(mScreenPosition);
+}
+void building::setCameraOffset(sf::Vector2f p) {
+	mScreenPosition = mWorldPosition - p;
+	mSprite.setPosition(mScreenPosition);
+}
 
 void building::setRotation(uint16_t rot) {
 	// not much happening here for most buildings
@@ -87,7 +99,7 @@ void hideInterface(component* c) {
 }
 container* building::createInventoryUI(const inventory* invP) const {
 
-	sf::Vector2f mGlobalPosition = screenPosition;
+	sf::Vector2f mGlobalPosition = mWorldPosition;
 	mGlobalPosition.x += mSize.x;
 
 	container* mCont = new container(NULL);

@@ -4,6 +4,7 @@
 #include <vector>
 #include "header/world.h"
 #include <stdint.h>
+#include <thread>
 
 #include "header/worldGeneration.h"
 
@@ -26,6 +27,9 @@ void InputEvent(sf::Event, sf::RenderWindow*);
 building* buildingFactorie(sf::Vector2f);
 void placeBuilding(sf::Vector2f);
 void rotate();
+
+void moveCamera(sf::Event, float);
+
 
 // data
 enum Buildings {
@@ -57,12 +61,25 @@ world WORLD(20,20, TILE_SIZE);
 uint16_t rotation = 0;
 bool oPressed = false;
 
+ sf::Vector2f cameraPosition;
+ uint16_t cameraSpeed;
+ float cameraZoom;
+ label cameraPositionUI(sf::Vector2f(30,30), NULL, "assets/arial.ttf", 30, sf::Color::Black, "x: 0 y: 0");
+
 uint16_t frame = 0;
 sf::Clock deltaClock;
 sf::Time dt;
+label fps(sf::Vector2f(30,70), NULL, "assets/arial.ttf", 30, sf::Color::Black, "fps: 0");
 
 // A UI inventory
 inventoryInterface interface;
+
+sf::RenderWindow window(sf::VideoMode(1000, 800), "SFML GAME");
+
+void updateLoop() {
+
+	std::cout << "in thread " << "\n";
+}
 
 
 int main() {
@@ -71,35 +88,45 @@ int main() {
 	toBuild = Buildings::nothing;
 
 	// window
-	sf::RenderWindow window(sf::VideoMode(1000, 800), "SFML GAME");
 	
 	worldGeneration::fill(&WORLD);
+
+	cameraPosition = sf::Vector2f(0,0);
+	cameraSpeed = 500;
+	cameraZoom = 1;
+
+
+	std::thread updater(updateLoop);
 
 	// Game Loop
 	while (window.isOpen()) {
 		
 		// get mouse Position
 		sf::Vector2i preConv = sf::Mouse::getPosition(window);
-		mousePosition = sf::Vector2f(preConv.x, preConv.y);
+		mousePosition = sf::Vector2f(preConv.x, preConv.y) + cameraPosition;
 		
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			InputEvent(event, &window);
+			moveCamera(event, dt.asSeconds());
 		}
 
+		fps.setContent("fps: " + std::to_string(uint16_t(1000/dt.asSeconds())));
+
 		// drawing
+		interface.update();
+		WORLD.update(dt.asSeconds(), frame);
+		dt = deltaClock.restart();
 		window.clear(sf::Color(180, 180, 180));
 		WORLD.draw(&window);
 		interface.draw(&window);
-		interface.update();
-		WORLD.update(dt.asSeconds(), frame);
+		cameraPositionUI.draw(&window);
+		fps.draw(&window);
 		window.display();
-
-		dt = deltaClock.restart();
 		frame++;  // overflow resets frame counter
 	}
 
-
+	updater.join();
 }
 
 
@@ -140,6 +167,25 @@ void InputEvent(sf::Event e, sf::RenderWindow* w) {
 	}
 }
 
+void moveCamera(sf::Event e, float dt) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+		cameraPosition.y -= cameraSpeed * dt;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		cameraPosition.y += cameraSpeed * dt;
+	} 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		cameraPosition.x += cameraSpeed * dt;
+	} else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		cameraPosition.x -= cameraSpeed * dt;
+	}
+
+	if (cameraPosition.x < 0) cameraPosition.x = 0;
+	if (cameraPosition.y < 0) cameraPosition.y = 0;
+	
+	WORLD.cameraMoved(cameraPosition);
+	cameraPositionUI.setContent("x: "+ std::to_string((int16_t)cameraPosition.x) + " y: " + std::to_string((int16_t)cameraPosition.y));
+}
+
 void rotate() {
 	if (oPressed) return;
 	rotation += 90;
@@ -165,6 +211,7 @@ building* buildingFactorie(sf::Vector2f worldPosition) {
 	return NULL;
 }
 void placeBuilding(sf::Vector2f pos) {
+	if (pos.x < 0 || pos.y < 0) return;
 	// get building to place
 	building* b = buildingFactorie(sf::Vector2f(pos.x*TILE_SIZE , pos.y*TILE_SIZE));
 

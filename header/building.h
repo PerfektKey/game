@@ -13,7 +13,8 @@ void hideInterface(component*);
 
 class building {
 protected:
-	sf::Vector2f screenPosition;
+	sf::Vector2f mWorldPosition;
+	sf::Vector2f mScreenPosition;
 	sf::Vector2f mapPosition;
 	sf::Vector2f mSize;
 
@@ -46,7 +47,12 @@ public:
 
 	sf::Vector2f getSize() const;
 	sf::Vector2f getPosition() const;
+	sf::Vector2f getScreenPosition() const;
 	std::string getType() const;
+
+
+	void setScreenPosition(sf::Vector2f);
+	void setCameraOffset(sf::Vector2f);
 
 	virtual void setRotation(uint16_t);
 	uint16_t getRotation() const;
