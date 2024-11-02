@@ -3,14 +3,23 @@
 #include "../header/building.h"
 
 
-world::world(uint16_t w, uint16_t h, uint16_t ts) 
+world::world(uint16_t w, uint16_t h, uint16_t ts, sf::Vector2f wd, sf::Vector2f* cam) 
 {
 	this->width  = w;	
 	this->height = h;
 	this->map = std::vector<std::vector<building*>> (w, std::vector<building*> (h, NULL));
-	this->tiles = std::vector<std::vector<sf::Sprite>>(w, std::vector<sf::Sprite>(h, sf::Sprite()));
+	
+	for (uint16_t x = 0; x < width; x++){
+		tiles.push_back({});
+		for (uint16_t y = 0; y < height; y++) {
+			tiles[x].push_back(tile( cam));
+		}
+	}
 	
 	this->tileSize = ts;
+
+	mpCameraPosition = cam;
+	mWindowSize = wd;
 }
 
 building* world::get(uint16_t wx, uint16_t hy) {
@@ -39,11 +48,12 @@ building* world::set(sf::Vector2f pos, building* b) {
 
 
 //void world::setTile(sf::Texture*, sf::Vector2f);
+//
 void world::setTile(sf::Texture* t, uint16_t x, uint16_t y) {
 	if (x >= width || y >= height) return;
 
-	tiles[x][y].setTexture(*t);
-	tiles[x][y].setPosition(sf::Vector2f(x*tileSize,y*tileSize));
+	tiles[x][y].setTexture(t);
+	tiles[x][y].setWorldPosition(sf::Vector2f(x*tileSize,y*tileSize));
 }
 
 void world::printInfo(sf::Vector2f pos) 
@@ -64,20 +74,17 @@ void world::update(float dt, uint16_t frame)
 	}
 }
 
-void world::draw(sf::RenderWindow* w) const
+void world::draw(sf::RenderWindow* w)
 {
-	for (auto& t : tiles)
-	for (auto& s : t)
-		w->draw(s);
+	for (auto& i : tiles)
+	for (auto& b : i)
+		if (inScreen( b.getWorldPosition() )) b.draw(w);
 	for (auto& i : map)
 	for (auto& b : i)
-		if (b != NULL) b->draw(w);
+		if (b != NULL && inScreen(b->getScreenPosition())) b->draw(w);
 }
 
 void world::cameraMoved(sf::Vector2f p) {
-	for (uint16_t x = 0; x < width; x++)
-	for (uint16_t y = 0; y < height; y++)
-		tiles[x][y].setPosition(sf::Vector2f(x*tileSize,y*tileSize) - p);
 	for (auto& i : map)
 	for (auto& b : i)
 		if (b != NULL) b->setCameraOffset(p);
@@ -89,4 +96,10 @@ uint16_t world::getTileSize() const {return tileSize;}
 
 sf::Vector2f world::screenToMap(sf::Vector2f sp) const {
 	return sf::Vector2f( floor(sp.x/tileSize) , floor(sp.y/tileSize) );
+}
+
+bool world::inScreen(const sf::Vector2f& p) const {
+	bool xBool = p.x+tileSize >= mpCameraPosition->x && p.x-tileSize <= mpCameraPosition->x+mWindowSize.x;
+	bool yBool = p.y+tileSize >= mpCameraPosition->y && p.y-tileSize <= mpCameraPosition->y+mWindowSize.y;
+	return xBool && yBool;
 }

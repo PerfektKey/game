@@ -56,7 +56,6 @@ std::unordered_map<std::string, recepie> FurnaceReceps = {
 
 sf::Vector2f mousePosition = sf::Vector2f();
 const uint16_t TILE_SIZE = 50;
-world WORLD(20,20, TILE_SIZE);
 
 uint16_t rotation = 0;
 bool oPressed = false;
@@ -74,6 +73,7 @@ label fps(sf::Vector2f(30,70), NULL, "assets/arial.ttf", 30, sf::Color::Black, "
 // A UI inventory
 inventoryInterface interface;
 
+world WORLD(50,50, TILE_SIZE, sf::Vector2f(1000,800), &cameraPosition);
 sf::RenderWindow window(sf::VideoMode(1000, 800), "SFML GAME");
 
 void updateLoop() {
@@ -88,13 +88,15 @@ int main() {
 	toBuild = Buildings::nothing;
 
 	// window
-	
-	worldGeneration::fill(&WORLD);
 
-	cameraPosition = sf::Vector2f(0,0);
+//	worldGeneration::fill(&WORLD);	
+	worldGeneration::waveFunktionCollapse(&WORLD);
+
+	cameraPosition = sf::Vector2f(0*50,0*50);// middle of map
 	cameraSpeed = 500;
 	cameraZoom = 1;
 
+	WORLD.cameraMoved(cameraPosition);
 
 	std::thread updater(updateLoop);
 
